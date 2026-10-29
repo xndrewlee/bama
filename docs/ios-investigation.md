@@ -164,11 +164,20 @@ first use (`APP_DEVICE="iPhone 18 Pro" make snapshot`).
 
 ## 3. `devicectl` and a locked phone
 
-**Not tested: no physical iPhone is connected.** `xcrun devicectl list
-devices` shows only the simulator. Test in step 6: lock the phone, then run
-`devicectl device install app` and `devicectl device process launch`, and
-record what each does. `devicectl device info lockState` reports the lock
-state on a real phone; simulators do not support it.
+Tested in step 6 on an iPhone Duo with iOS 27.2, after it had been
+unlocked once since it started. With the phone locked,
+`devicectl device install app` succeeds, by cable and over Wi-Fi.
+`devicectl device process launch` fails: "Unable to launch ... because the
+device was not, or could not be, unlocked". `devicectl device info
+lockState` reports `passcodeRequired` and `unlockedSinceBoot` on a real
+phone; simulators do not support it. Not tested: a phone not unlocked since
+it restarted.
+
+Also found on hardware: Xcode reuses a cached provisioning profile until it
+expires, so a redeploy alone does not renew a free team's 7-day profile.
+Moving the app's profile out of
+`~/Library/Developer/Xcode/UserData/Provisioning Profiles/` makes the next
+`-allowProvisioningUpdates` build fetch a new one.
 
 `devicectl` also drives simulators now (`Reality: simulated`): display
 info, `appResize`, orientation, appearance, and simulated location,
