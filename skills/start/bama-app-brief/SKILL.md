@@ -1,6 +1,6 @@
 ---
 name: bama-app-brief
-description: One-page brief (docs/BRIEF.md) for a new macOS app, written before any code. Use when the user has an app idea, wants to replace an app they pay for, or the bama-research and bama-clone skills are done.
+description: One-page brief (docs/BRIEF.md) for a new Mac or iPhone app, written before any code. Use when the user has an app idea, wants to replace an app they pay for, or the bama-research and bama-clone skills are done.
 argument-hint: "[idea in a few words]"
 ---
 
@@ -20,12 +20,18 @@ scaffold all use it.
 If `docs/research/` or `docs/screens/INDEX.md` exist, read them first.
 Skip every question they already answer.
 
+Keep a `Platform:` line already in `docs/BRIEF.md` (the `bama` router
+writes one). Without one, ask once: a Mac app or an iPhone app, and for an
+iPhone app, optimized for iPhone Duo or not. Record `mac`, `iphone`, or
+`iphone-duo`. Every later skill picks its Mac or iPhone variant from it.
+
 If the user gives you a spec from BAMA's `specs/` folder (a file or a
 link), it already holds the brief and the stories. Copy its **Brief** block
-to `docs/BRIEF.md` and its **Stories** block to `docs/STORIES.md`. Keep the
-rest of the spec as `docs/SPEC.md`, so later skills read its **How it
-works** and **Gotchas**. Ask only what the user wants to change, then call
-the Skill tool with `bama-new-mac-app`.
+to `docs/BRIEF.md` and its **Stories** block to `docs/STORIES.md`, and add a
+`Platform:` line if the block has none. Keep the rest of the spec as
+`docs/SPEC.md`, so later skills read its **How it works** and **Gotchas**.
+Ask only what the user wants to change, then call the Skill tool with
+`bama-new-mac-app`, or `bama-new-ios-app` for an iPhone app.
 
 ## 2. Interview
 
@@ -61,6 +67,8 @@ model (Today, Upcoming, Someday) count as one page.
 ```markdown
 # <AppName>
 
+Platform: <mac, iphone, or iphone-duo>
+
 One sentence: what it is and who it is for.
 
 ## Replaces
@@ -93,7 +101,9 @@ Local data. Works offline. No accounts.
 
 ## 5. Hand off
 
-Call the Skill tool with `bama-user-stories`, or with `bama-new-mac-app` if the user
-wants to see a window first.
+Call the Skill tool with `bama-user-stories`, or with `bama-new-mac-app`
+(`bama-new-ios-app` for an iPhone app) if the user wants to see a window
+first.
 
-Done when `docs/BRIEF.md` exists, fits on one page, and has every section.
+Done when `docs/BRIEF.md` exists, fits on one page, and has a `Platform:`
+line and every section.
