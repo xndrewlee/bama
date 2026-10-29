@@ -9,6 +9,8 @@ import UIKit
 /// tools/snap.sh has saved <name>.png with `simctl io screenshot`. That PNG
 /// holds the real screen: status bar, system buttons, and glass. Each page
 /// also gets <name>-layout.json with the grid probes (tools/check-layout.swift).
+/// On screen, the app writes `ready`, then starts once tools/snap.sh writes
+/// `go` (an APP_SIZE run first moves the app to the Resizable screen).
 /// Progress goes to snapshot.log in the folder: simctl does not pass on an
 /// app's printed lines unless it waits for the app to quit.
 /// APP_SNAPSHOT_PAGES=all,starred limits the pages. Add "settings" to include Settings.
@@ -25,6 +27,10 @@ enum Snapshot {
         }
         let only = env["APP_SNAPSHOT_PAGES"].map { Set($0.split(separator: ",").map(String.init)) }
         Task {
+            FileManager.default.createFile(atPath: "\(dir)/ready", contents: nil)
+            for _ in 0..<300 where !FileManager.default.fileExists(atPath: "\(dir)/go") {
+                try? await Task.sleep(for: .milliseconds(200))
+            }
             try? await Task.sleep(for: .seconds(1.5))
             // On a compact width, show the page's list, not the sidebar.
             model.compactColumn = .content

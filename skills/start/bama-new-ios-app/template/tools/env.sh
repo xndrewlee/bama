@@ -41,18 +41,23 @@ sim_udid() {
   echo "$udid"
 }
 
-# Prints the id of the screen that is on, for `simctl io screenshot --display`.
-# The Duo has two screens and shows apps on one; without --display, simctl
-# can capture the dark one. Prints nothing on a one-screen iPhone.
-active_display() {
+# Prints a screen id for `simctl io screenshot --display`: the screen that is
+# on, or with a second argument, the screen whose name contains it
+# ("Resizable"). The Duo has two screens and shows apps on one; without
+# --display, simctl can capture the dark one. Prints nothing on a one-screen
+# iPhone.
+display_id() {
   local json=$(mktemp) i id
   xcrun devicectl device info displays -d "$1" -j "$json" >/dev/null 2>&1 || { rm -f "$json"; return 0; }
   for i in {0..7}; do
     id=$(plutil -extract result.displays.$i.displayId raw -o - "$json" 2>/dev/null) || break
-    if [[ $(plutil -extract result.displays.$i.active raw -o - "$json" 2>/dev/null) == true ]]; then
-      echo "$id"
-      break
+    if [[ -n ${2:-} ]]; then
+      [[ $(plutil -extract result.displays.$i.name raw -o - "$json" 2>/dev/null) == *$2* ]] || continue
+    else
+      [[ $(plutil -extract result.displays.$i.active raw -o - "$json" 2>/dev/null) == true ]] || continue
     fi
+    echo "$id"
+    break
   done
   rm -f "$json"
 }

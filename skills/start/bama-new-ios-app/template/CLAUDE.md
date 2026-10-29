@@ -21,6 +21,7 @@ on iOS 27. It keeps its data on the phone in SwiftData, with no server.
 - After every UI change, take snapshots with sample data and look at them: `make snapshot`.
   It writes `/tmp/__APP_NAME__-shots/<page>-light.png` and `-dark.png` for every sidebar page, and `settings-<topic>-light.png` and `-dark.png` for every Settings topic. `APP_SNAPSHOT_PAGES=all,settings make snapshot` limits the pages.
   For a new sheet or screen, add it to the loop in `Snapshot.swift`, like the Settings loop.
+  `APP_SIZE=951x669 make snapshot` renders the app at that size in points (size classes only, no fold). The bama-build-and-verify-ios skill runs every iPhone Duo pose this way.
 - Snapshots, seed data, and the self-test refuse to run without `APP_STORE` in /tmp. Never test against the app's real database.
 - Then check the grid: `make check`. Both checks print PASS.
 - Compile for a real iPhone, unsigned: `make build-device`. Installing on the phone is `make deploy`, which the bama-deploy-to-device skill sets up.

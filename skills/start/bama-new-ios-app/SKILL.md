@@ -99,11 +99,13 @@ An XcodeGen spec for one iPhone app target, plus a Makefile that wraps
 ## How snapshots work on iPhone
 
 An app cannot screenshot the simulator's screen, so the app and
-`tools/snap.sh` take turns. The app shows a page and writes
-`<name>.want` into `/tmp/<AppName>-shots`. The script saves the screen as
+`tools/snap.sh` take turns, through files in `/tmp/<AppName>-shots`. The
+app writes `ready` once it is on screen and waits for the script's `go`.
+Then, per page, it writes `<name>.want`; the script saves the screen as
 `<name>.png` with `simctl io screenshot` and deletes the request. The app
-then moves on, and writes `SNAPSHOT done` to `snapshot.log` at the end.
-The PNGs hold the real screen: status bar, system buttons, and glass.
+writes `SNAPSHOT done` to `snapshot.log` at the end. The PNGs hold the real
+screen: status bar, system buttons, and glass. `APP_SIZE=<w>x<h>` renders
+the app at that size instead (`devicectl appResize`), for size classes.
 
 The closed Duo shows apps on its outer screen. The script captures the
 screen that is on (`devicectl device info displays`). Without `--display`,

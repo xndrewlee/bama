@@ -111,7 +111,14 @@ kill -INT $session                           # ends the session ("Session ended.
 ```
 
 - `start` runs until interrupted. Without a foreground app it fails with
-  error 24001.
+  error 24001. Right after a launch it often fails that way, or the device
+  ends the session as the launch settles ("Session was ended by the
+  device"). Wait until the app is on screen, then retry until a session
+  holds.
+- Its output reaches a file only when it quits. Poll
+  `devicectl device info appResize` to know a session is up.
+- The Resizable screen reports `active: false` even during a session. Find
+  it by name.
 - At 669 x 951, Settings showed its regular-width layout: sidebar and
   detail. A request for 334 x 951 came out 475 x 951 with the compact
   layout, so there is a minimum width, at least for Settings.
@@ -121,10 +128,20 @@ kill -INT $session                           # ends the session ("Session ended.
 | Pose | How to get it from a script |
 | --- | --- |
 | `outer` | The boot state. Screenshot `--display=1`. |
+| outer landscape | `appResize` at 678 x 466 (size only) |
 | `inner` | `appResize` at 669 x 951 (size only) |
 | `inner-landscape` | `appResize` at 951 x 669 (size only) |
-| `splitview-left`, `splitview-right` | `appResize` sizes, to be measured in step 4 (size only) |
-| outer landscape, `tabletop`, `tent` | None. Human pass in Device Hub. |
+| `splitview-left`, `splitview-right` | `appResize` at 475 x 669, half the inner display (size only) |
+| `tabletop`, `tent` | None. Human pass in Device Hub. |
+
+`bama-build-and-verify-ios` runs this matrix (`scripts/pose-shots.sh`).
+
+Where the fold is: the simulator does not mark it, and the screen masks show
+only rounded corners. Each half of the inner display (4.36 x 3.10 in) has
+the outer display's size (4.42 x 3.04 in), so a book-style hinge crosses the
+middle of the inner display's long side, 475.5 pt in: a vertical line at
+951 x 669, a horizontal one at 669 x 951. That is also the smallest width
+`appResize` allows, 475 pt. Inferred, not measured: confirm in Device Hub.
 
 The verification report must say which poses had only a size check and
 which need a human pass.

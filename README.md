@@ -13,7 +13,7 @@ Swift and SwiftUI. Local data. No Xcode GUI.
 
 [![macOS 26+](https://img.shields.io/badge/macOS-26%2B-000000?style=flat-square&logo=apple&logoColor=white)](#requirements)
 [![Swift 6.2](https://img.shields.io/badge/Swift-6.2-F05138?style=flat-square&logo=swift&logoColor=white)](#requirements)
-[![22 skills](https://img.shields.io/badge/skills-22-5E5CE6?style=flat-square)](#skills)
+[![23 skills](https://img.shields.io/badge/skills-23-5E5CE6?style=flat-square)](#skills)
 [![Claude Code plugin](https://img.shields.io/badge/Claude_Code-plugin-D97757?style=flat-square&logo=claude&logoColor=white)](#install)
 [![Codex plugin](https://img.shields.io/badge/Codex-plugin-10A37F?style=flat-square)](#install)
 [![MIT license](https://img.shields.io/badge/license-MIT-F4C430?style=flat-square)](LICENSE)
@@ -29,7 +29,7 @@ This is a fork of [daveebbelaar/bama](https://github.com/daveebbelaar/bama). It 
 - **Every skill is named `bama-<name>`.** Upstream's generic names, like `research`, `clone`, and `performance`, clashed with other skill packs. The router is still `/bama`. The naming scheme comes from the [hmaddocks/bama](https://github.com/hmaddocks/bama) fork by hmaddocks.
 - **The link script keeps other skills safe.** `scripts/link-skills.sh` replaces only links that point into your clone. If another skill or folder has the same name, the script leaves it alone, names it, and exits with an error. It also removes links into your clone whose skill is gone, such as the old names without the prefix.
 - **Installs come from this fork.** The install commands below and `plugin.json` point at `xndrewlee/bama`.
-- **iPhone and iPhone Duo support is in progress.** The plan is in [docs/ios-duo-support.md](docs/ios-duo-support.md). So far `/bama` tells Mac and iPhone projects apart, and `bama-new-ios-app` scaffolds an iPhone app that runs on the iPhone Duo simulator. The Mac path works as before.
+- **iPhone and iPhone Duo support is in progress.** The plan is in [docs/ios-duo-support.md](docs/ios-duo-support.md). So far `/bama` tells Mac and iPhone projects apart, `bama-new-ios-app` scaffolds an iPhone app that runs on the iPhone Duo simulator, and `bama-build-and-verify-ios` snapshots it in every Duo pose a script can reach. The Mac path works as before.
 
 ## Quick start
 
@@ -99,7 +99,8 @@ Every skill is named `bama-<name>`, so it sits next to other skill packs without
 <tr><td nowrap><a href="skills/design/bama-design-kit/SKILL.md"><samp>bama-design-kit</samp></a></td><td>Your own parts, not Apple's: three token layers, type, an icon set, every part in every state, custom window chrome, and a parts gallery</td></tr>
 <tr><td nowrap><a href="skills/design/bama-design-from-app/SKILL.md"><samp>bama-design-from-app</samp></a></td><td>Rebuilds the look of an app you like from its screenshots: measures sizes, type, and colors, then compares pixel by pixel until it matches</td></tr>
 <tr><td nowrap><a href="skills/design/bama-app-icon/SKILL.md"><samp>bama-app-icon</samp></a></td><td>A Liquid Glass icon written as an Icon Composer file, checked in every look</td></tr>
-<tr><td rowspan="3" valign="top"><b>Ship</b></td><td nowrap><a href="skills/ship/bama-build-and-verify/SKILL.md"><samp>bama-build-and-verify</samp></a></td><td>Build, install, snapshot every page in light and dark, look at them</td></tr>
+<tr><td rowspan="4" valign="top"><b>Ship</b></td><td nowrap><a href="skills/ship/bama-build-and-verify/SKILL.md"><samp>bama-build-and-verify</samp></a></td><td>Build, install, snapshot every page in light and dark, look at them</td></tr>
+<tr><td nowrap><a href="skills/ship/bama-build-and-verify-ios/SKILL.md"><samp>bama-build-and-verify-ios</samp></a></td><td>Build for the simulator, snapshot every page in light and dark in every iPhone Duo pose a script can reach and on a non-Duo iPhone, look at them, list what needs a human pass</td></tr>
 <tr><td nowrap><a href="skills/ship/bama-test-mac-app/SKILL.md"><samp>bama-test-mac-app</samp></a></td><td>Swift Testing, an in-app self-test, a debug bridge an agent can drive</td></tr>
 <tr><td nowrap><a href="skills/ship/bama-improve-loop/SKILL.md"><samp>bama-improve-loop</samp></a></td><td>Works through the backlog one story per commit until a milestone is done</td></tr>
 </table>
