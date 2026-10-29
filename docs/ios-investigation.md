@@ -31,10 +31,10 @@ Creating an iPhone 18 Pro or 17 Pro on iOS 27.1 fails with "Incompatible
 device". So 27.1 looks like a Duo-only release, like Apple's other launch
 builds. That is not checked on real phones.
 
-Decision needed for `bama-new-ios-app`: the plan says deployment target
-iOS 27.1. With 27.1, the app runs only on the Duo, in the simulator and on
-hardware. Building with the 27.1 SDK and a 27.0 deployment target gets the
-full Duo layout and still runs on every other iPhone.
+Decided on 2026-10-29: `bama-new-ios-app` keeps deployment target iOS 27.1,
+as the plan says. The app runs only on the Duo, in the simulator and on
+hardware. A 27.0 target with the 27.1 SDK would also run on every other
+iPhone; that was weighed and turned down.
 
 ## 1. The Duo simulator
 
