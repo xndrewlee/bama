@@ -132,9 +132,10 @@ which need a human pass.
 Also build, install, and snapshot every page, light and dark, on a non-Duo
 iPhone on the iOS 27.0 runtime, such as an iPhone 18 Pro. It proves the
 27.0 deployment target holds: the app launches, and every
-`#available(iOS 27.1, *)` fallback renders. Xcode creates only the Duo by
-default, so create that simulator the first time:
-`xcrun simctl create "iPhone 18 Pro" com.apple.CoreSimulator.SimDeviceType.iPhone-18-Pro com.apple.CoreSimulator.SimRuntime.iOS-27-0`.
+`#available(iOS 27.1, *)` fallback renders. On the 27.0 runtime Xcode
+creates an iPhone 18 Pro Max, iPhone 17, iPhone 17e, and iPhone Air, but
+no iPhone 18 Pro. The template's `tools/env.sh` creates a missing device on
+first use (`APP_DEVICE="iPhone 18 Pro" make snapshot`).
 
 ## 3. `devicectl` and a locked phone
 
