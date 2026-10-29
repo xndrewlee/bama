@@ -6,8 +6,8 @@
 # Usage: pose-shots.sh [app-folder]            default: the current folder
 #        APP_SNAPSHOT_PAGES=all,settings pose-shots.sh
 # Only `outer` and `iphone-27.0` are real screens. The others render the app
-# at the pose's size on the simulator's Resizable screen: size classes and
-# layout, not the fold, the system buttons, or the safe areas of the pose.
+# at the pose's size on the simulator's Resizable screen, which picks size
+# classes from the size and has no fold.
 set -euo pipefail
 here=${0:A:h}
 dir=${1:-$PWD}
@@ -24,7 +24,6 @@ tools/build.sh
 # pose, size in points (empty: the real screen), and whether to shade the fold.
 poses=(
   outer           ""       none
-  outer-landscape 678x466  none
   inner           669x951  fold
   inner-landscape 951x669  fold
   splitview       475x669  none

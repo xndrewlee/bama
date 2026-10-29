@@ -45,8 +45,11 @@ final class AppModel {
     var sidebar: SidebarItem? = .all
     var selection: PersistentIdentifier?
     /// The column a compact width (the outer display, or a narrow window)
-    /// shows. Wider sizes show several columns side by side.
+    /// shows.
     var compactColumn: NavigationSplitViewColumn = .sidebar
+    /// What a regular width (the inner display) shows: the list and the
+    /// detail side by side. The sidebar opens from its button.
+    var columns: NavigationSplitViewVisibility = .doubleColumn
     var showSettings = false
     /// The open Settings topic, as a navigation path.
     var settingsPath: [SettingsTab] = []

@@ -5,7 +5,7 @@
 #   make snapshot      build, then every page in light and dark with sample data: /tmp/__APP_NAME__-shots
 #   make selftest      build, then the in-app self-test on the simulator: PASS or FAIL per check
 #   make test          Kit unit tests on this Mac (Swift Testing)
-#   make check         the grid lint and the layout check of the last snapshots
+#   make check         the grid lint and the layout check of the last snapshots and pose shots
 #   make build-device  compile for a real iPhone, unsigned
 #   make deploy        install on your iPhone (tools/deploy.sh, from the bama-deploy-to-device skill)
 # APP_DEVICE="iPhone 18 Pro" make snapshot runs on another simulator.
@@ -32,7 +32,7 @@ test:
 
 check:
 	@tools/grid-lint.sh
-	@zsh -c 'source tools/env.sh && swift tools/check-layout.swift /tmp/__APP_NAME__-shots/*-layout.json'
+	@zsh -c 'source tools/env.sh && files=(/tmp/__APP_NAME__-shots/*-layout.json(N) /tmp/__APP_NAME__-poses/*/*-layout.json(N)) && if (( $${#files} )); then swift tools/check-layout.swift $$files; else echo "no layout files: run make snapshot first"; exit 1; fi'
 
 build-device:
 	@tools/build.sh device

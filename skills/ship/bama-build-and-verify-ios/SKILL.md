@@ -17,8 +17,9 @@ repeat the search:
 - The Duo boots closed. The outer display is the one real pose a script
   gets.
 - `devicectl device appResize` renders the app at any size on the
-  simulator's Resizable screen. That checks size classes and layout. It
-  shows no fold, no system buttons, and no real safe areas.
+  simulator's Resizable screen. The app gets a right-hand system column, a
+  camera region, and safe areas like the outer display's, and size classes
+  from its width. The screenshot has no status bar, and there is no fold.
 - Everything else is a human pass in Device Hub.
 
 A change is done when five things are true:
@@ -48,7 +49,7 @@ in scope": `make generate`, then build.
 "${CLAUDE_SKILL_DIR}/scripts/pose-shots.sh" <app-folder>
 ```
 
-It takes about four minutes. It runs `tools/snap.sh` once per pose, with
+It takes about four minutes. It runs `tools/snap.sh` once per set, with
 seed data, light and dark, every page and Settings topic, and joins each
 pose into one sheet: `/tmp/<AppName>-poses/<pose>.png`. The single PNGs are
 in `/tmp/<AppName>-poses/<pose>/`.
@@ -56,7 +57,6 @@ in `/tmp/<AppName>-poses/<pose>/`.
 | Pose | Size in points | Screen | Story poses it covers |
 | --- | --- | --- | --- |
 | `outer` | 466 x 678 | real, the closed Duo | `outer` |
-| `outer-landscape` | 678 x 466 | size only | outer, rotated |
 | `inner` | 669 x 951 | size only, fold shaded | `inner`, and `tabletop` (fold across) |
 | `inner-landscape` | 951 x 669 | size only, fold shaded | `inner-landscape`, held like a book (fold down) |
 | `splitview` | 475 x 669 | size only | `splitview-left`, `splitview-right` |
@@ -64,9 +64,14 @@ in `/tmp/<AppName>-poses/<pose>/`.
 
 The fold sits across the middle of the inner display's long side, 475.5 pt
 in. Each half of the inner display matches the outer display's size, so
-that is where a book-style hinge sits; the simulator does not mark it. The
-sheet shades 16 pt on each side. Split View halves are 475 pt wide, the
-smallest width `appResize` allows.
+that is where a book-style hinge sits; the simulator does not mark it.
+Partly folded, the fold is a 40 pt band, margins included, so the sheet
+shades 20 pt on each side. Flat, it has no width. Split View halves are
+475 pt wide, the smallest width `appResize` allows.
+
+Outer landscape is not in the table: a real outer display in landscape is
+compact width and compact height, but `appResize` at that size gives a
+regular width. It stays in the human pass.
 
 While you iterate on one page, `make snapshot` (the outer display only) and
 `APP_SNAPSHOT_PAGES=all make snapshot` are faster. Run the pose script
@@ -86,11 +91,11 @@ On a grid FAIL, call the Skill tool with `bama-layout-grid`.
 Open every sheet with the Read tool, and a single PNG when something looks
 off. The change fails on any of these:
 
-- **The fold.** In `inner` and `inner-landscape`, a control, a line of
-  text, or a face in a photo crosses the red band. Backgrounds, dividers,
-  and empty space may cross it. Sheets center over the fold on the inner
-  display, so their controls need care too. A two-page layout puts its
-  column edge on the band.
+- **The fold.** In `inner` and `inner-landscape`, a fixed control, a
+  title, or a face in a photo crosses the red band. Backgrounds, dividers,
+  empty space, and scrolling content may cross it. So may the system's own
+  sheets, alerts, menus, and toolbar buttons: on a real Duo the system moves
+  them off the fold. A two-page layout puts its column edge on the band.
 - **The status bar and camera.** In `outer`, iOS 27.1 stacks the status bar
   and the navigation buttons along the right edge. Content under that column,
   or text cut off at the top, fails.
@@ -98,8 +103,9 @@ off. The change fails on any of these:
   edge or a rounded corner. The outer display's right corners are round,
   its left corners nearly square.
 - **The wrong layout for the size.** Compact widths (`outer`,
-  `splitview`) show one column at a time. Regular widths (`inner`,
-  `inner-landscape`, `outer-landscape`) show columns side by side. A
+  `splitview`) show one column at a time. `inner-landscape` shows the list
+  and the detail side by side, the list's edge on the fold. `inner` may lay
+  the list over a dimmed detail, as iOS does at that width. A
   regular width that shows only an empty detail ("No Selection") with the
   list hidden behind a button fails: fix it with `bama-ios-duo-design`. So
   do two sidebar pages whose snapshots look the same.

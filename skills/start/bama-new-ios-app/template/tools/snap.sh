@@ -26,19 +26,20 @@ xcrun simctl install "$udid" "$app_sim"
 vars=(SIMCTL_CHILD_APP_STORE=$store SIMCTL_CHILD_APP_SEED=1 SIMCTL_CHILD_APP_SNAPSHOT=$shots)
 [[ -n ${APP_SNAPSHOT_PAGES:-} ]] && vars+=(SIMCTL_CHILD_APP_SNAPSHOT_PAGES=$APP_SNAPSHOT_PAGES)
 [[ -n ${APP_ACCENT:-} ]] && vars+=(SIMCTL_CHILD_APP_ACCENT=$APP_ACCENT)
-env "${vars[@]}" xcrun simctl launch --terminate-running-process "$udid" "$bundle" >/dev/null
+# Launches the app and waits until it writes `ready`: it is on screen.
+launch() {
+  rm -f $shots/ready
+  env "${vars[@]}" xcrun simctl launch --terminate-running-process "$udid" "$bundle" >/dev/null
+  for tick in {1..150}; do [[ -e $shots/ready ]] && break; sleep 0.2; done
+}
 
-# The app writes `ready` once it is on screen.
-for tick in {1..150}; do [[ -e $shots/ready ]] && break; sleep 0.2; done
-
-if [[ -n ${APP_SIZE:-} ]]; then
-  # appResize moves the frontmost app. Right after launch it often finds
-  # none, or the device ends the session as the launch settles. Try again
-  # until a session has held for two seconds.
-  resize=
-  trap '[[ -n $resize ]] && kill -INT $resize 2>/dev/null' EXIT
+# Starts an appResize session that holds for two seconds. appResize moves
+# the frontmost app. Right after launch it often finds none, or the device
+# ends the session as the launch settles, so it tries again.
+resize=
+start_resize() {
   sleep 2
-  for attempt in {1..20}; do
+  for attempt in {1..10}; do
     xcrun devicectl device appResize start -d "$udid" --preferred-size "$APP_SIZE" >$shots/resize.log 2>&1 &
     resize=$!
     # devicectl's own output reaches the log only when it quits, so ask the device.
@@ -46,7 +47,7 @@ if [[ -n ${APP_SIZE:-} ]]; then
       kill -0 $resize 2>/dev/null || break
       if xcrun devicectl device info appResize -d "$udid" >/dev/null 2>&1; then
         sleep 2
-        xcrun devicectl device info appResize -d "$udid" >/dev/null 2>&1 && break 2
+        xcrun devicectl device info appResize -d "$udid" >/dev/null 2>&1 && return 0
         break
       fi
       sleep 0.5
@@ -55,7 +56,21 @@ if [[ -n ${APP_SIZE:-} ]]; then
     resize=
     sleep 1
   done
-  [[ -n $resize ]] || { echo "no appResize session at $APP_SIZE:"; cat $shots/resize.log; exit 1; }
+  return 1
+}
+
+launch
+if [[ -n ${APP_SIZE:-} ]]; then
+  trap '[[ -n $resize ]] && kill -INT $resize 2>/dev/null' EXIT
+  if ! start_resize; then
+    # The simulator's resize service can lose track of the foreground app
+    # for good ("no foreground application"). A restart clears it.
+    echo "no appResize session yet: restarting the simulator"
+    xcrun simctl shutdown "$udid"
+    xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1
+    launch
+    start_resize || { echo "no appResize session at $APP_SIZE:"; cat $shots/resize.log; exit 1; }
+  fi
   screen=$(display_id "$udid" Resizable)
 else
   screen=${APP_DISPLAY:-$(display_id "$udid")}

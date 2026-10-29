@@ -1,6 +1,7 @@
 // Joins snapshots into one labeled contact sheet, so an agent can look at a
 // whole pose in one image. With "fold", it shades the band the iPhone Duo's
-// fold crosses: the middle of the long side, 16 pt on each side.
+// fold crosses: the middle of the long side, 20 pt on each side (the fold is
+// 40 pt wide when partly folded, margins included).
 // Usage: swiftc -O sheet.swift -o sheet && ./sheet <out.png> <fold|none> <png>...
 import AppKit
 
@@ -39,7 +40,7 @@ for (index, (path, image)) in images.enumerated() {
     if fold {
         // The Duo's long inner side is 951 pt, whichever way the image is turned.
         let pointsPerPixel = max(frame.width, frame.height) / 951
-        let band = 16 * pointsPerPixel
+        let band = 20 * pointsPerPixel
         NSColor.systemRed.withAlphaComponent(0.28).setFill()
         if frame.width > frame.height {
             NSRect(x: frame.midX - band, y: frame.minY, width: band * 2, height: frame.height).fill()

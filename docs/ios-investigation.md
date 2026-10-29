@@ -65,6 +65,14 @@ Screens 2 (TV out) and 4 (CarPlay) are off.
   navigation buttons (back, toolbar items) vertically along the right edge.
   Seen in Settings and Safari. So the outer screen's safe area is not
   symmetric even closed and upright.
+- Measured in an app on the closed Duo with
+  `GeometryProxy.reservedRegions(kind:options: .includeInactive)`: safe
+  area insets 0 top, 0 leading, 34 bottom, 84 trailing; `.occlusion`
+  regions for the front camera (a 37 pt circle at x 400, y 29) and the
+  system column (84 x 174 pt at the top right); no `.division` region.
+  An `appResize` session reports a similar column, camera, and insets, and
+  no `.division` region either. The fold region is active only when the
+  Duo is partly folded (Apple's "Strike a pose" talk).
 
 ## 2. Poses
 

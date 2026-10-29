@@ -13,7 +13,7 @@ Swift and SwiftUI. Local data. No Xcode GUI.
 
 [![macOS 26+](https://img.shields.io/badge/macOS-26%2B-000000?style=flat-square&logo=apple&logoColor=white)](#requirements)
 [![Swift 6.2](https://img.shields.io/badge/Swift-6.2-F05138?style=flat-square&logo=swift&logoColor=white)](#requirements)
-[![23 skills](https://img.shields.io/badge/skills-23-5E5CE6?style=flat-square)](#skills)
+[![24 skills](https://img.shields.io/badge/skills-24-5E5CE6?style=flat-square)](#skills)
 [![Claude Code plugin](https://img.shields.io/badge/Claude_Code-plugin-D97757?style=flat-square&logo=claude&logoColor=white)](#install)
 [![Codex plugin](https://img.shields.io/badge/Codex-plugin-10A37F?style=flat-square)](#install)
 [![MIT license](https://img.shields.io/badge/license-MIT-F4C430?style=flat-square)](LICENSE)
@@ -29,7 +29,7 @@ This is a fork of [daveebbelaar/bama](https://github.com/daveebbelaar/bama). It 
 - **Every skill is named `bama-<name>`.** Upstream's generic names, like `research`, `clone`, and `performance`, clashed with other skill packs. The router is still `/bama`. The naming scheme comes from the [hmaddocks/bama](https://github.com/hmaddocks/bama) fork by hmaddocks.
 - **The link script keeps other skills safe.** `scripts/link-skills.sh` replaces only links that point into your clone. If another skill or folder has the same name, the script leaves it alone, names it, and exits with an error. It also removes links into your clone whose skill is gone, such as the old names without the prefix.
 - **Installs come from this fork.** The install commands below and `plugin.json` point at `xndrewlee/bama`.
-- **iPhone and iPhone Duo support is in progress.** The plan is in [docs/ios-duo-support.md](docs/ios-duo-support.md). So far `/bama` tells Mac and iPhone projects apart, `bama-new-ios-app` scaffolds an iPhone app that runs on the iPhone Duo simulator, and `bama-build-and-verify-ios` snapshots it in every Duo pose a script can reach. The Mac path works as before.
+- **iPhone and iPhone Duo support is in progress.** The plan is in [docs/ios-duo-support.md](docs/ios-duo-support.md). So far `/bama` tells Mac and iPhone projects apart, `bama-new-ios-app` scaffolds an iPhone app that runs on the iPhone Duo simulator, `bama-build-and-verify-ios` snapshots it in every Duo pose a script can reach, and `bama-ios-duo-design` has the layout rules for every pose and the fold. The Mac path works as before.
 
 ## Quick start
 
@@ -92,8 +92,9 @@ Every skill is named `bama-<name>`, so it sits next to other skill packs without
 <tr><td nowrap><a href="skills/code/bama-performance/SKILL.md"><samp>bama-performance</samp></a></td><td>Measure, then fix: main thread, GPU compositing, images, Instruments from the command line</td></tr>
 <tr><td nowrap><a href="skills/code/bama-improve-architecture/SKILL.md"><samp>bama-improve-architecture</samp></a></td><td>Finds hot spots as the app grows and refactors one step per commit, with behavior proven unchanged</td></tr>
 <tr><td nowrap><a href="skills/code/bama-agent-cli/SKILL.md"><samp>bama-agent-cli</samp></a></td><td>Optional: a command line and MCP server, so Claude Code, Codex, and scripts can drive your app</td></tr>
-<tr><td rowspan="7" valign="top"><b>Design</b></td><td nowrap><a href="skills/design/bama-ux-design/SKILL.md"><samp>bama-ux-design</samp></a></td><td>Names, flow, where each feature opens (inline, popover, sheet, window), words, and accessibility, before code</td></tr>
+<tr><td rowspan="8" valign="top"><b>Design</b></td><td nowrap><a href="skills/design/bama-ux-design/SKILL.md"><samp>bama-ux-design</samp></a></td><td>Names, flow, where each feature opens (inline, popover, sheet, window), words, and accessibility, before code</td></tr>
 <tr><td nowrap><a href="skills/design/bama-mac-design/SKILL.md"><samp>bama-mac-design</samp></a></td><td>Liquid Glass, layout, toolbars, menus, keyboard, type, dark mode</td></tr>
+<tr><td nowrap><a href="skills/design/bama-ios-duo-design/SKILL.md"><samp>bama-ios-duo-design</samp></a></td><td>iPhone and iPhone Duo: size classes, every pose, the fold, vertical bars, sheets, asymmetric safe areas, a second display</td></tr>
 <tr><td nowrap><a href="skills/design/bama-design-system/SKILL.md"><samp>bama-design-system</samp></a></td><td>Native look with an accent color people pick in Settings, then one set of tokens and one rules page</td></tr>
 <tr><td nowrap><a href="skills/design/bama-layout-grid/SKILL.md"><samp>bama-layout-grid</samp></a></td><td>A 4 pt grid with checks that fail on misalignment: a code lint, a layout probe in snapshot mode, and a grid overlay</td></tr>
 <tr><td nowrap><a href="skills/design/bama-design-kit/SKILL.md"><samp>bama-design-kit</samp></a></td><td>Your own parts, not Apple's: three token layers, type, an icon set, every part in every state, custom window chrome, and a parts gallery</td></tr>
@@ -175,6 +176,10 @@ The script replaces only links that point into your clone. If another skill or f
   REA showed that an agent can reverse engineer any app. BAMA takes that idea to the Mac.
 - The `bama-` prefix and the link script that keeps other skills safe come from
   the [hmaddocks/bama](https://github.com/hmaddocks/bama) fork by hmaddocks.
+- iPhone Duo guidance comes from Apple's [iPhone Duo](https://developer.apple.com/iphone-duo/)
+  Tech Talks and the "Designing for iPhone Duo" HIG page.
+- The iPhone Duo layout patterns follow the [duology](https://github.com/Kimeur/duology)
+  skills by kimeur.
 - Skill format and writing rules follow Matt Pocock's
   [skills](https://github.com/mattpocock/skills) and his
   `writing-for-agents` skill.

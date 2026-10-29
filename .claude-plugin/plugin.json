@@ -41,6 +41,7 @@
     "./skills/code/bama-agent-cli",
     "./skills/design/bama-ux-design",
     "./skills/design/bama-mac-design",
+    "./skills/design/bama-ios-duo-design",
     "./skills/design/bama-design-system",
     "./skills/design/bama-layout-grid",
     "./skills/design/bama-design-kit",
