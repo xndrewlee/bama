@@ -31,10 +31,12 @@ Creating an iPhone 18 Pro or 17 Pro on iOS 27.1 fails with "Incompatible
 device". So 27.1 looks like a Duo-only release, like Apple's other launch
 builds. That is not checked on real phones.
 
-Decided on 2026-10-29: `bama-new-ios-app` keeps deployment target iOS 27.1,
-as the plan says. The app runs only on the Duo, in the simulator and on
-hardware. A 27.0 target with the 27.1 SDK would also run on every other
-iPhone; that was weighed and turned down.
+Decided on 2026-10-29, replacing the plan's iOS 27.1 target:
+`bama-new-ios-app` sets deployment target iOS 27.0 and builds with the
+iOS 27.1 SDK. The app gets the full Duo layout on the Duo and still runs on
+every other iPhone. Code that uses an API new in 27.1, such as
+`ReservedRegion`, goes behind `if #available(iOS 27.1, *)` with a 27.0
+fallback.
 
 ## 1. The Duo simulator
 
@@ -126,6 +128,13 @@ kill -INT $session                           # ends the session ("Session ended.
 
 The verification report must say which poses had only a size check and
 which need a human pass.
+
+Also build, install, and snapshot every page, light and dark, on a non-Duo
+iPhone on the iOS 27.0 runtime, such as an iPhone 18 Pro. It proves the
+27.0 deployment target holds: the app launches, and every
+`#available(iOS 27.1, *)` fallback renders. Xcode creates only the Duo by
+default, so create that simulator the first time:
+`xcrun simctl create "iPhone 18 Pro" com.apple.CoreSimulator.SimDeviceType.iPhone-18-Pro com.apple.CoreSimulator.SimRuntime.iOS-27-0`.
 
 ## 3. `devicectl` and a locked phone
 
