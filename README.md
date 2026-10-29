@@ -13,7 +13,7 @@ Swift and SwiftUI. Local data. No Xcode GUI.
 
 [![macOS 26+](https://img.shields.io/badge/macOS-26%2B-000000?style=flat-square&logo=apple&logoColor=white)](#requirements)
 [![Swift 6.2](https://img.shields.io/badge/Swift-6.2-F05138?style=flat-square&logo=swift&logoColor=white)](#requirements)
-[![21 skills](https://img.shields.io/badge/skills-21-5E5CE6?style=flat-square)](#skills)
+[![22 skills](https://img.shields.io/badge/skills-22-5E5CE6?style=flat-square)](#skills)
 [![Claude Code plugin](https://img.shields.io/badge/Claude_Code-plugin-D97757?style=flat-square&logo=claude&logoColor=white)](#install)
 [![Codex plugin](https://img.shields.io/badge/Codex-plugin-10A37F?style=flat-square)](#install)
 [![MIT license](https://img.shields.io/badge/license-MIT-F4C430?style=flat-square)](LICENSE)
@@ -29,7 +29,7 @@ This is a fork of [daveebbelaar/bama](https://github.com/daveebbelaar/bama). It 
 - **Every skill is named `bama-<name>`.** Upstream's generic names, like `research`, `clone`, and `performance`, clashed with other skill packs. The router is still `/bama`. The naming scheme comes from the [hmaddocks/bama](https://github.com/hmaddocks/bama) fork by hmaddocks.
 - **The link script keeps other skills safe.** `scripts/link-skills.sh` replaces only links that point into your clone. If another skill or folder has the same name, the script leaves it alone, names it, and exits with an error. It also removes links into your clone whose skill is gone, such as the old names without the prefix.
 - **Installs come from this fork.** The install commands below and `plugin.json` point at `xndrewlee/bama`.
-- **iPhone and iPhone Duo support is planned.** The plan is in [docs/ios-duo-support.md](docs/ios-duo-support.md). No iOS skills ship yet. The Mac path works as before.
+- **iPhone and iPhone Duo support is in progress.** The plan is in [docs/ios-duo-support.md](docs/ios-duo-support.md). So far `/bama` tells Mac and iPhone projects apart, and `bama-new-ios-app` scaffolds an iPhone app that runs on the iPhone Duo simulator. The Mac path works as before.
 
 ## Quick start
 
@@ -80,9 +80,10 @@ Every skill is named `bama-<name>`, so it sits next to other skill packs without
 
 <table>
 <tr><th>Stage</th><th>Skill</th><th>What it does</th></tr>
-<tr><td rowspan="3" valign="top"><b>Start</b></td><td nowrap><a href="skills/start/bama/SKILL.md"><samp>bama</samp></a></td><td>Router: finds where you are and calls the right skill</td></tr>
+<tr><td rowspan="4" valign="top"><b>Start</b></td><td nowrap><a href="skills/start/bama/SKILL.md"><samp>bama</samp></a></td><td>Router: finds where you are and calls the right skill</td></tr>
 <tr><td nowrap><a href="skills/start/bama-app-brief/SKILL.md"><samp>bama-app-brief</samp></a></td><td>Turns an idea into a one-page brief</td></tr>
 <tr><td nowrap><a href="skills/start/bama-new-mac-app/SKILL.md"><samp>bama-new-mac-app</samp></a></td><td>A working app from a template: Swift package, SwiftData, build script, snapshot mode, git</td></tr>
+<tr><td nowrap><a href="skills/start/bama-new-ios-app/SKILL.md"><samp>bama-new-ios-app</samp></a></td><td>A working iPhone app, ready for iPhone Duo: XcodeGen project, SwiftData, Makefile, snapshot mode on the simulator, git</td></tr>
 <tr><td rowspan="3" valign="top"><b>Plan</b></td><td nowrap><a href="skills/plan/bama-research/SKILL.md"><samp>bama-research</samp></a></td><td>Parallel researcher agents: market, users, features, design, macOS APIs</td></tr>
 <tr><td nowrap><a href="skills/plan/bama-clone/SKILL.md"><samp>bama-clone</samp></a></td><td>Screenshots every screen of any app with computer use or a browser, writes a screen index</td></tr>
 <tr><td nowrap><a href="skills/plan/bama-user-stories/SKILL.md"><samp>bama-user-stories</samp></a></td><td>A backlog with checkable acceptance criteria, in milestones</td></tr>

@@ -1,0 +1,3 @@
+interface:
+  display_name: "New iPhone App"
+  short_description: "Scaffold a SwiftUI iPhone app, ready for iPhone Duo"
