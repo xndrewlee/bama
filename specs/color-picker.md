@@ -54,7 +54,7 @@ Native, system accent color. Swatches are rounded squares with a hairline edge.
 | Save | JSON file in `~/Library/Application Support/Pick/colors.json` | None |
 
 `NSColorSampler` is the system loupe from the color panel and needs no Screen Recording permission.
-Shortcut code: [os-integrations recipes](../skills/code/os-integrations/recipes.md).
+Shortcut code: [bama-os-integrations recipes](../skills/code/bama-os-integrations/recipes.md).
 
 Types: `HexColor` (pure functions: color to hex, parse, normalize, format; unit tested),
 `ColorStore` (`@MainActor @Observable`, `collections` and `recent`, saves on every change),

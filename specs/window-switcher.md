@@ -59,7 +59,7 @@ accent fill and a 2 pt accent border. No open animation: it must feel instant.
 | ⌘Tab mode | private `CGSSetSymbolicHotKeyEnabled` for hotkeys 1 and 2 | None |
 | Panel | `NSPanel` with `[.borderless, .nonactivatingPanel]` | None |
 
-Recipes: [global hotkey](../skills/code/os-integrations/recipes.md#global-hotkey-carbon), [event tap](../skills/code/os-integrations/recipes.md#event-tap), [non-activating panel](../skills/code/os-integrations/recipes.md#non-activating-panel), [screen capture](../skills/code/os-integrations/recipes.md#screen-capture).
+Recipes: [global hotkey](../skills/code/bama-os-integrations/recipes.md#global-hotkey-carbon), [event tap](../skills/code/bama-os-integrations/recipes.md#event-tap), [non-activating panel](../skills/code/bama-os-integrations/recipes.md#non-activating-panel), [screen capture](../skills/code/bama-os-integrations/recipes.md#screen-capture).
 
 Main types:
 

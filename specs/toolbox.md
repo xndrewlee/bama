@@ -59,7 +59,7 @@ one-word label under it, like Control Center. A short glass toast confirms each 
 | Shortcuts | Carbon `RegisterEventHotKey` | None |
 | Menu bar | `MenuBarExtra` with `.menuBarExtraStyle(.window)` | None |
 
-Recipes: [global hotkey](../skills/code/os-integrations/recipes.md#global-hotkey-carbon), [event tap](../skills/code/os-integrations/recipes.md#event-tap), [launch at login](../skills/code/os-integrations/recipes.md#launch-at-login).
+Recipes: [global hotkey](../skills/code/bama-os-integrations/recipes.md#global-hotkey-carbon), [event tap](../skills/code/bama-os-integrations/recipes.md#event-tap), [launch at login](../skills/code/bama-os-integrations/recipes.md#launch-at-login).
 
 Main types:
 

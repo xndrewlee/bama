@@ -54,9 +54,9 @@ Native with the system accent. The menu bar text is one template image, so it ti
 | Bluetooth batteries | IOKit `BatteryPercent` on HID and Bluetooth services | None |
 | Menu bar item | `NSStatusItem` + `NSPopover` (`.transient`) | None |
 | Timer | `DispatchSourceTimer` on a `.utility` queue | None |
-| Launch at login | `SMAppService.mainApp` ([recipe](../skills/code/os-integrations/recipes.md#launch-at-login)) | User approves once |
+| Launch at login | `SMAppService.mainApp` ([recipe](../skills/code/bama-os-integrations/recipes.md#launch-at-login)) | User approves once |
 
-Stats needs no system permission. A stats app must sample cheaply: read [performance](../skills/code/performance/SKILL.md), "Timers, polling, and energy".
+Stats needs no system permission. A stats app must sample cheaply: read [bama-performance](../skills/code/bama-performance/SKILL.md), "Timers, polling, and energy".
 
 Types to create:
 - `StatsSample`: one reading as a plain struct, plus `memoryUsed` and `memoryFraction`.

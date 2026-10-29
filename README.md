@@ -67,29 +67,31 @@ It builds one story per commit. Before each commit it snapshots every page in li
 
 ## Skills
 
+Every skill is named `bama-<name>`, so it sits next to other skill packs without a clash. The router is plain `/bama`.
+
 <table>
 <tr><th>Stage</th><th>Skill</th><th>What it does</th></tr>
 <tr><td rowspan="3" valign="top"><b>Start</b></td><td nowrap><a href="skills/start/bama/SKILL.md"><samp>bama</samp></a></td><td>Router: finds where you are and calls the right skill</td></tr>
-<tr><td nowrap><a href="skills/start/app-brief/SKILL.md"><samp>app-brief</samp></a></td><td>Turns an idea into a one-page brief</td></tr>
-<tr><td nowrap><a href="skills/start/new-mac-app/SKILL.md"><samp>new-mac-app</samp></a></td><td>A working app from a template: Swift package, SwiftData, build script, snapshot mode, git</td></tr>
-<tr><td rowspan="3" valign="top"><b>Plan</b></td><td nowrap><a href="skills/plan/research/SKILL.md"><samp>research</samp></a></td><td>Parallel researcher agents: market, users, features, design, macOS APIs</td></tr>
-<tr><td nowrap><a href="skills/plan/clone/SKILL.md"><samp>clone</samp></a></td><td>Screenshots every screen of any app with computer use or a browser, writes a screen index</td></tr>
-<tr><td nowrap><a href="skills/plan/user-stories/SKILL.md"><samp>user-stories</samp></a></td><td>A backlog with checkable acceptance criteria, in milestones</td></tr>
-<tr><td rowspan="5" valign="top"><b>Code</b></td><td nowrap><a href="skills/code/swift-swiftui/SKILL.md"><samp>swift-swiftui</samp></a></td><td>Swift 6 concurrency, state, SwiftData, AppKit bridges, compiler errors</td></tr>
-<tr><td nowrap><a href="skills/code/os-integrations/SKILL.md"><samp>os-integrations</samp></a></td><td>Global hotkeys, menu bar, floating panels, window control, screen capture, Shortcuts, URL schemes, CLI, permissions</td></tr>
-<tr><td nowrap><a href="skills/code/performance/SKILL.md"><samp>performance</samp></a></td><td>Measure, then fix: main thread, GPU compositing, images, Instruments from the command line</td></tr>
-<tr><td nowrap><a href="skills/code/improve-architecture/SKILL.md"><samp>improve-architecture</samp></a></td><td>Finds hot spots as the app grows and refactors one step per commit, with behavior proven unchanged</td></tr>
-<tr><td nowrap><a href="skills/code/agent-cli/SKILL.md"><samp>agent-cli</samp></a></td><td>Optional: a command line and MCP server, so Claude Code, Codex, and scripts can drive your app</td></tr>
-<tr><td rowspan="7" valign="top"><b>Design</b></td><td nowrap><a href="skills/design/ux-design/SKILL.md"><samp>ux-design</samp></a></td><td>Names, flow, where each feature opens (inline, popover, sheet, window), words, and accessibility, before code</td></tr>
-<tr><td nowrap><a href="skills/design/mac-design/SKILL.md"><samp>mac-design</samp></a></td><td>Liquid Glass, layout, toolbars, menus, keyboard, type, dark mode</td></tr>
-<tr><td nowrap><a href="skills/design/design-system/SKILL.md"><samp>design-system</samp></a></td><td>Native look with an accent color people pick in Settings, then one set of tokens and one rules page</td></tr>
-<tr><td nowrap><a href="skills/design/layout-grid/SKILL.md"><samp>layout-grid</samp></a></td><td>A 4 pt grid with checks that fail on misalignment: a code lint, a layout probe in snapshot mode, and a grid overlay</td></tr>
-<tr><td nowrap><a href="skills/design/design-kit/SKILL.md"><samp>design-kit</samp></a></td><td>Your own parts, not Apple's: three token layers, type, an icon set, every part in every state, custom window chrome, and a parts gallery</td></tr>
-<tr><td nowrap><a href="skills/design/design-from-app/SKILL.md"><samp>design-from-app</samp></a></td><td>Rebuilds the look of an app you like from its screenshots: measures sizes, type, and colors, then compares pixel by pixel until it matches</td></tr>
-<tr><td nowrap><a href="skills/design/app-icon/SKILL.md"><samp>app-icon</samp></a></td><td>A Liquid Glass icon written as an Icon Composer file, checked in every look</td></tr>
-<tr><td rowspan="3" valign="top"><b>Ship</b></td><td nowrap><a href="skills/ship/build-and-verify/SKILL.md"><samp>build-and-verify</samp></a></td><td>Build, install, snapshot every page in light and dark, look at them</td></tr>
-<tr><td nowrap><a href="skills/ship/test-mac-app/SKILL.md"><samp>test-mac-app</samp></a></td><td>Swift Testing, an in-app self-test, a debug bridge an agent can drive</td></tr>
-<tr><td nowrap><a href="skills/ship/improve-loop/SKILL.md"><samp>improve-loop</samp></a></td><td>Works through the backlog one story per commit until a milestone is done</td></tr>
+<tr><td nowrap><a href="skills/start/bama-app-brief/SKILL.md"><samp>bama-app-brief</samp></a></td><td>Turns an idea into a one-page brief</td></tr>
+<tr><td nowrap><a href="skills/start/bama-new-mac-app/SKILL.md"><samp>bama-new-mac-app</samp></a></td><td>A working app from a template: Swift package, SwiftData, build script, snapshot mode, git</td></tr>
+<tr><td rowspan="3" valign="top"><b>Plan</b></td><td nowrap><a href="skills/plan/bama-research/SKILL.md"><samp>bama-research</samp></a></td><td>Parallel researcher agents: market, users, features, design, macOS APIs</td></tr>
+<tr><td nowrap><a href="skills/plan/bama-clone/SKILL.md"><samp>bama-clone</samp></a></td><td>Screenshots every screen of any app with computer use or a browser, writes a screen index</td></tr>
+<tr><td nowrap><a href="skills/plan/bama-user-stories/SKILL.md"><samp>bama-user-stories</samp></a></td><td>A backlog with checkable acceptance criteria, in milestones</td></tr>
+<tr><td rowspan="5" valign="top"><b>Code</b></td><td nowrap><a href="skills/code/bama-swift-swiftui/SKILL.md"><samp>bama-swift-swiftui</samp></a></td><td>Swift 6 concurrency, state, SwiftData, AppKit bridges, compiler errors</td></tr>
+<tr><td nowrap><a href="skills/code/bama-os-integrations/SKILL.md"><samp>bama-os-integrations</samp></a></td><td>Global hotkeys, menu bar, floating panels, window control, screen capture, Shortcuts, URL schemes, CLI, permissions</td></tr>
+<tr><td nowrap><a href="skills/code/bama-performance/SKILL.md"><samp>bama-performance</samp></a></td><td>Measure, then fix: main thread, GPU compositing, images, Instruments from the command line</td></tr>
+<tr><td nowrap><a href="skills/code/bama-improve-architecture/SKILL.md"><samp>bama-improve-architecture</samp></a></td><td>Finds hot spots as the app grows and refactors one step per commit, with behavior proven unchanged</td></tr>
+<tr><td nowrap><a href="skills/code/bama-agent-cli/SKILL.md"><samp>bama-agent-cli</samp></a></td><td>Optional: a command line and MCP server, so Claude Code, Codex, and scripts can drive your app</td></tr>
+<tr><td rowspan="7" valign="top"><b>Design</b></td><td nowrap><a href="skills/design/bama-ux-design/SKILL.md"><samp>bama-ux-design</samp></a></td><td>Names, flow, where each feature opens (inline, popover, sheet, window), words, and accessibility, before code</td></tr>
+<tr><td nowrap><a href="skills/design/bama-mac-design/SKILL.md"><samp>bama-mac-design</samp></a></td><td>Liquid Glass, layout, toolbars, menus, keyboard, type, dark mode</td></tr>
+<tr><td nowrap><a href="skills/design/bama-design-system/SKILL.md"><samp>bama-design-system</samp></a></td><td>Native look with an accent color people pick in Settings, then one set of tokens and one rules page</td></tr>
+<tr><td nowrap><a href="skills/design/bama-layout-grid/SKILL.md"><samp>bama-layout-grid</samp></a></td><td>A 4 pt grid with checks that fail on misalignment: a code lint, a layout probe in snapshot mode, and a grid overlay</td></tr>
+<tr><td nowrap><a href="skills/design/bama-design-kit/SKILL.md"><samp>bama-design-kit</samp></a></td><td>Your own parts, not Apple's: three token layers, type, an icon set, every part in every state, custom window chrome, and a parts gallery</td></tr>
+<tr><td nowrap><a href="skills/design/bama-design-from-app/SKILL.md"><samp>bama-design-from-app</samp></a></td><td>Rebuilds the look of an app you like from its screenshots: measures sizes, type, and colors, then compares pixel by pixel until it matches</td></tr>
+<tr><td nowrap><a href="skills/design/bama-app-icon/SKILL.md"><samp>bama-app-icon</samp></a></td><td>A Liquid Glass icon written as an Icon Composer file, checked in every look</td></tr>
+<tr><td rowspan="3" valign="top"><b>Ship</b></td><td nowrap><a href="skills/ship/bama-build-and-verify/SKILL.md"><samp>bama-build-and-verify</samp></a></td><td>Build, install, snapshot every page in light and dark, look at them</td></tr>
+<tr><td nowrap><a href="skills/ship/bama-test-mac-app/SKILL.md"><samp>bama-test-mac-app</samp></a></td><td>Swift Testing, an in-app self-test, a debug bridge an agent can drive</td></tr>
+<tr><td nowrap><a href="skills/ship/bama-improve-loop/SKILL.md"><samp>bama-improve-loop</samp></a></td><td>Works through the backlog one story per commit until a milestone is done</td></tr>
 </table>
 
 ## Specs
@@ -131,7 +133,7 @@ Uses [skills.sh](https://skills.sh). Install all skills, or one with `--skill`.
 
 ```bash
 npx skills@latest add daveebbelaar/bama -a <agent>
-npx skills@latest add daveebbelaar/bama --skill=clone
+npx skills@latest add daveebbelaar/bama --skill=bama-clone
 ```
 
 </details>
@@ -144,6 +146,8 @@ git clone https://github.com/daveebbelaar/bama.git
 bama/scripts/link-skills.sh       # links every skill into ~/.claude/skills and ~/.agents/skills
 ```
 
+The script replaces only links that point into your clone. If another skill or folder already has the same name, it leaves it alone, names it, and exits with an error.
+
 </details>
 
 ## Requirements
@@ -151,13 +155,15 @@ bama/scripts/link-skills.sh       # links every skill into ~/.claude/skills and 
 - macOS 26 or later
 - Xcode 26 or later, for the Swift 6.2 toolchain (you never open it)
 - An agent that supports skills: Claude Code, Codex, Cursor, Gemini CLI
-- For `clone` on native apps: computer use (Claude Pro or Max)
+- For `bama-clone` on native apps: computer use (Claude Pro or Max)
 
 ## Credits
 
 - The idea and the "any" promise come from
   [REA: Reverse Engineer Anything](https://github.com/morluto/rea) by morluto.
   REA showed that an agent can reverse engineer any app. BAMA takes that idea to the Mac.
+- The `bama-` prefix and the link script that keeps other skills safe come from
+  the [hmaddocks/bama](https://github.com/hmaddocks/bama) fork by hmaddocks.
 - Skill format and writing rules follow Matt Pocock's
   [skills](https://github.com/mattpocock/skills) and his
   `writing-for-agents` skill.

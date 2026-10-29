@@ -58,8 +58,8 @@ Results never animate.
 | Hidden scroll bars | `.scrollIndicators(.never)` plus an `NSScroller` subclass with no width | None |
 
 Launch needs no permission. The one failure state is a shortcut that another
-app already owns. Recipes: [Global hotkey](../skills/code/os-integrations/recipes.md#global-hotkey-carbon),
-[Non-activating panel](../skills/code/os-integrations/recipes.md#non-activating-panel).
+app already owns. Recipes: [Global hotkey](../skills/code/bama-os-integrations/recipes.md#global-hotkey-carbon),
+[Non-activating panel](../skills/code/bama-os-integrations/recipes.md#non-activating-panel).
 
 Types to create:
 

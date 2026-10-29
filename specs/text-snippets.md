@@ -55,9 +55,9 @@ preview next to it, a switch per snippet.
 | Storage | `snippets.json` in Application Support | None |
 | Menu bar item | `MenuBarExtra` | None |
 
-Recipe: [Event tap](../skills/code/os-integrations/recipes.md#event-tap) (use
+Recipe: [Event tap](../skills/code/bama-os-integrations/recipes.md#event-tap) (use
 `.listenOnly`, the tap never changes input). Signing that keeps the grant:
-[os-integrations](../skills/code/os-integrations/SKILL.md#signing-keeps-grants).
+[bama-os-integrations](../skills/code/bama-os-integrations/SKILL.md#signing-keeps-grants).
 
 Types to create:
 

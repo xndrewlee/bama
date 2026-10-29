@@ -53,7 +53,7 @@ Native, system accent color. Each action shows a small layout glyph in the menu.
 | Menu bar item | `MenuBarExtra` | None |
 | Launch at login | `SMAppService.mainApp.register()` | User approves once |
 
-Recipes: [global hotkey](../skills/code/os-integrations/recipes.md#global-hotkey-carbon), [move a window](../skills/code/os-integrations/recipes.md#accessibility-move-a-window), [launch at login](../skills/code/os-integrations/recipes.md#launch-at-login).
+Recipes: [global hotkey](../skills/code/bama-os-integrations/recipes.md#global-hotkey-carbon), [move a window](../skills/code/bama-os-integrations/recipes.md#accessibility-move-a-window), [launch at login](../skills/code/bama-os-integrations/recipes.md#launch-at-login).
 
 Main types:
 

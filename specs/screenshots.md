@@ -56,7 +56,7 @@ picture edge to edge, and on hover a dark wash with light, readable buttons.
 | Share a capture | SwiftUI `ShareLink` with the file URL | None |
 | Blur and pixelate | Core Image `CIFilter.pixellate()`, `gaussianBlur()` | None |
 
-Generic code for shortcuts, panels, and capture: [os-integrations recipes](../skills/code/os-integrations/recipes.md).
+Generic code for shortcuts, panels, and capture: [bama-os-integrations recipes](../skills/code/bama-os-integrations/recipes.md).
 
 Types: `CaptureService`, `SelectionOverlay` (one panel per display), `CaptureThumbnail` (one
 card's face and buttons), `CornerCards` (one panel with the column of cards), `CardSwipe` and

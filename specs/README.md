@@ -21,8 +21,8 @@ A link works too:
 `https://github.com/daveebbelaar/bama/blob/main/specs/window-snapper.md`.
 
 The agent copies the spec's **Brief** into `docs/BRIEF.md` and its
-**Stories** into `docs/STORIES.md`, then runs `new-mac-app` and
-`improve-loop`. Change the name, the shortcuts, or the scope first if you
+**Stories** into `docs/STORIES.md`, then runs `bama-new-mac-app` and
+`bama-improve-loop`. Change the name, the shortcuts, or the scope first if you
 want. A spec is a starting point, not a contract.
 
 ## The specs
@@ -50,11 +50,11 @@ permission.
 
 Every spec has the same parts, in this order:
 
-1. **Brief**: the `app-brief` format, filled in. The agent skips the
+1. **Brief**: the `bama-app-brief` format, filled in. The agent skips the
    interview.
 2. **How it works**: the macOS APIs, the permission each one needs, and the
    main types.
-3. **Stories**: the `user-stories` format, in milestones. Every acceptance
+3. **Stories**: the `bama-user-stories` format, in milestones. Every acceptance
    line says how to check it.
 4. **Gotchas**: what went wrong in Onyx, so your agent gets it right the
    first time.

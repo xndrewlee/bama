@@ -52,8 +52,8 @@ Native, system accent color. Glass capsule control with a red record dot.
 | Webcam bubble | `AVCaptureSession` + `AVCaptureVideoPreviewLayer` in an `NSPanel` | Camera |
 | Join paused parts | `AVMutableComposition` + passthrough `AVAssetExportSession` | None |
 
-Shortcut and panel code: [os-integrations recipes](../skills/code/os-integrations/recipes.md). The recorder must never stutter
-or block the UI: follow the [performance skill](../skills/code/performance/SKILL.md) and [GPU and media recipes](../skills/code/performance/gpu-media.md).
+Shortcut and panel code: [bama-os-integrations recipes](../skills/code/bama-os-integrations/recipes.md). The recorder must never stutter
+or block the UI: follow the [bama-performance skill](../skills/code/bama-performance/SKILL.md) and [GPU and media recipes](../skills/code/bama-performance/gpu-media.md).
 
 Types: `ScreenRecorder` (`@MainActor @Observable`, phases `idle`, `selecting`, `countdown`,
 `recording`, `paused`, `finishing`), `SelectionOverlay` (see-through, returns a rect or window ID),

@@ -56,9 +56,9 @@ the system accent color on the selected row.
 | Thumbnails | `CGImageSourceCreateThumbnailAtIndex` | None |
 | Menu bar item | `MenuBarExtra` | None |
 
-Recipes: [Global hotkey](../skills/code/os-integrations/recipes.md#global-hotkey-carbon),
-[Non-activating panel](../skills/code/os-integrations/recipes.md#non-activating-panel).
-Signing that keeps the Accessibility grant: [os-integrations](../skills/code/os-integrations/SKILL.md#signing-keeps-grants).
+Recipes: [Global hotkey](../skills/code/bama-os-integrations/recipes.md#global-hotkey-carbon),
+[Non-activating panel](../skills/code/bama-os-integrations/recipes.md#non-activating-panel).
+Signing that keeps the Accessibility grant: [bama-os-integrations](../skills/code/bama-os-integrations/SKILL.md#signing-keeps-grants).
 
 Types to create:
 

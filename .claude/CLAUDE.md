@@ -7,8 +7,10 @@ keep them identical.
 
 ## Layout
 
-- `skills/<stage>/<name>/SKILL.md`, stages in pipeline order: `start`, `plan`,
-  `code`, `design`, `ship`.
+- `skills/<stage>/bama-<name>/SKILL.md`, stages in pipeline order: `start`,
+  `plan`, `code`, `design`, `ship`. The folder and the frontmatter `name`
+  are both `bama-<name>`, so the skills never clash with other skill packs.
+  Only the router is plain `bama`.
 - References sit next to `SKILL.md` (`recipes.md`, `patterns.md`) and are
   linked relatively. Scripts go in `scripts/`, templates in `template/`.
 - `agents/openai.yaml` in every skill: Codex display name and short
@@ -39,7 +41,7 @@ Follow Matt Pocock's `writing-for-agents` rules:
 
 ## Adding a skill
 
-1. Create `skills/<stage>/<name>/SKILL.md` and `agents/openai.yaml`.
+1. Create `skills/<stage>/bama-<name>/SKILL.md` and `agents/openai.yaml`.
 2. Add it to `plugin.json` `skills`, the README table, and the router
    (`skills/start/bama/SKILL.md`).
 3. Run `claude plugin validate . --strict`.

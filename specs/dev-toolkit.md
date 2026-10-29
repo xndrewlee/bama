@@ -46,8 +46,8 @@ Native glass panel with the system accent. Rows: symbol, title, a grey subtitle,
 
 | Part | API | Permission |
 | --- | --- | --- |
-| Search panel | `NSPanel` with `.nonactivatingPanel`, SwiftUI field ([recipe](../skills/code/os-integrations/recipes.md#non-activating-panel)) | None |
-| Panel shortcut | Carbon `RegisterEventHotKey` ([recipe](../skills/code/os-integrations/recipes.md#global-hotkey-carbon)) | None |
+| Search panel | `NSPanel` with `.nonactivatingPanel`, SwiftUI field ([recipe](../skills/code/bama-os-integrations/recipes.md#non-activating-panel)) | None |
+| Panel shortcut | Carbon `RegisterEventHotKey` ([recipe](../skills/code/bama-os-integrations/recipes.md#global-hotkey-carbon)) | None |
 | Project scan | `FileManager.contentsOfDirectory` three levels deep, off the main thread | None (a root in Documents or Desktop gets a one-time folder prompt) |
 | Open in editor, terminal, Finder | `NSWorkspace.open(_:withApplicationAt:configuration:)`, `activateFileViewerSelecting` | None |
 | Web remote | Read `.git/config` as text, `NSWorkspace.open(url)` | None |

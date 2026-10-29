@@ -51,7 +51,7 @@ Native with a violet accent (#7B5CFF). Overlays are glass capsules; the teleprom
 | Cursor halo and click ripple | `NSEvent.addGlobalMonitorForEvents` + local monitor, `CAGradientLayer` | None |
 | Overlay windows | Borderless `NSPanel`, `.screenSaver` level, `ignoresMouseEvents` | None |
 | Keep notes out of recordings | `NSWindow.sharingType = .none` | None |
-| Global shortcuts | Carbon `RegisterEventHotKey` ([recipe](../skills/code/os-integrations/recipes.md#global-hotkey-carbon)) | None |
+| Global shortcuts | Carbon `RegisterEventHotKey` ([recipe](../skills/code/bama-os-integrations/recipes.md#global-hotkey-carbon)) | None |
 | Hide desktop icons | `CFPreferences` `com.apple.finder` `CreateDesktop`, then `killall Finder` | None |
 | Hide the Dock | `CoreDockSetAutoHideEnabled` via `dlsym`, fallback `com.apple.dock autohide` + `killall Dock` | None |
 | Focus (Do Not Disturb) | `Process` running `/usr/bin/shortcuts run "<name>"` | None |
@@ -63,7 +63,7 @@ Types to create:
 - `KeystrokeOverlay`: `@Observable` entries, mode, the overlay panel, fade timing.
 - `CursorHighlight`: one window and one layer-hosting view per screen, event monitors while on.
 - `RecordingMode`: turn on, turn off, the saved `Snapshot`, resume at launch.
-- `ChapterClock`: session, markers, a key prompt panel ([recipe](../skills/code/os-integrations/recipes.md#non-activating-panel)), YouTube text, CSV via `NSSavePanel`, issues.
+- `ChapterClock`: session, markers, a key prompt panel ([recipe](../skills/code/bama-os-integrations/recipes.md#non-activating-panel)), YouTube text, CSV via `NSSavePanel`, issues.
 - `Teleprompter`: text and look settings, clock-based position, the panel.
 - `Toast` (glass note, hidden from capture), `HotkeyCenter`, `ShortcutRecorder`, `SettingsView` (pages: Keystrokes, Cursor, Recording Mode, Chapters, Teleprompter, Permissions).
 
