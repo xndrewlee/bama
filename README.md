@@ -25,7 +25,7 @@ Swift and SwiftUI. Local data. No Xcode GUI.
 ## Quick start
 
 ```bash
-npx skills@latest add daveebbelaar/bama
+npx skills@latest add xndrewlee/bama
 ```
 
 Then ask your agent:
@@ -110,7 +110,7 @@ Pick one route per agent. Two routes install every skill twice.
 <summary><b>Claude Code</b></summary>
 
 ```text
-/plugin marketplace add daveebbelaar/bama
+/plugin marketplace add xndrewlee/bama
 /plugin install bama@bama
 ```
 
@@ -120,7 +120,7 @@ Pick one route per agent. Two routes install every skill twice.
 <summary><b>Codex</b></summary>
 
 ```bash
-codex plugin marketplace add daveebbelaar/bama
+codex plugin marketplace add xndrewlee/bama
 codex plugin add bama@bama
 ```
 
@@ -132,8 +132,8 @@ codex plugin add bama@bama
 Uses [skills.sh](https://skills.sh). Install all skills, or one with `--skill`.
 
 ```bash
-npx skills@latest add daveebbelaar/bama -a <agent>
-npx skills@latest add daveebbelaar/bama --skill=bama-clone
+npx skills@latest add xndrewlee/bama -a <agent>
+npx skills@latest add xndrewlee/bama --skill=bama-clone
 ```
 
 </details>
@@ -142,7 +142,7 @@ npx skills@latest add daveebbelaar/bama --skill=bama-clone
 <summary><b>By hand</b></summary>
 
 ```bash
-git clone https://github.com/daveebbelaar/bama.git
+git clone https://github.com/xndrewlee/bama.git
 bama/scripts/link-skills.sh       # links every skill into ~/.claude/skills and ~/.agents/skills
 ```
 
