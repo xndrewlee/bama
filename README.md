@@ -18,9 +18,18 @@ Swift and SwiftUI. Local data. No Xcode GUI.
 [![Codex plugin](https://img.shields.io/badge/Codex-plugin-10A37F?style=flat-square)](#install)
 [![MIT license](https://img.shields.io/badge/license-MIT-F4C430?style=flat-square)](LICENSE)
 
-**[Quick start](#quick-start) · [How it works](#how-it-works) · [Skills](#skills) · [Specs](#specs) · [Install](#install)**
+**[Quick start](#quick-start) · [Fork changes](#changes-in-this-fork) · [How it works](#how-it-works) · [Skills](#skills) · [Specs](#specs) · [Install](#install)**
 
 </div>
+
+## Changes in this fork
+
+This is a fork of [daveebbelaar/bama](https://github.com/daveebbelaar/bama). It changes four things:
+
+- **Every skill is named `bama-<name>`.** Upstream's generic names, like `research`, `clone`, and `performance`, clashed with other skill packs. The router is still `/bama`.
+- **The link script keeps other skills safe.** `scripts/link-skills.sh` replaces only links that point into your clone. If another skill or folder has the same name, the script leaves it alone, names it, and exits with an error. It also removes links into your clone whose skill is gone, such as the old names without the prefix.
+- **Installs come from this fork.** The install commands below and `plugin.json` point at `xndrewlee/bama`.
+- **iPhone and iPhone Duo support is planned.** The plan is in [docs/ios-duo-support.md](docs/ios-duo-support.md). No iOS skills ship yet. The Mac path works as before.
 
 ## Quick start
 
