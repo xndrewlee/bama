@@ -36,6 +36,7 @@
     "./skills/start/bama-new-ios-app",
     "./skills/code/bama-swift-swiftui",
     "./skills/code/bama-os-integrations",
+    "./skills/code/bama-ios-integrations",
     "./skills/code/bama-performance",
     "./skills/code/bama-improve-architecture",
     "./skills/code/bama-agent-cli",
