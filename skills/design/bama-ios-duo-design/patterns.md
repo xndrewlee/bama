@@ -2,7 +2,8 @@
 
 The pattern names follow the duology skills by kimeur
 (github.com/Kimeur/duology). The code is BAMA's, written for the
-`bama-new-ios-app` template (`readsFold` is in its `UI/Fold.swift`), and
+`bama-new-ios-app` template (`readsFold`, `FoldSplit`, and
+`measuresWindow` are in its `UI/Fold.swift`), and
 builds against the iOS 27.1 SDK with an iOS 27.0 deployment target.
 
 ## Pick a pattern
@@ -54,13 +55,17 @@ NavigationSplitView(columnVisibility: $model.columns, preferredCompactColumn: $m
 } detail: {
     ItemDetail()
 }
-.readsFold(width: $width, fold: $fold)
+.readsFold(frame: $frame, fold: $fold)
 
 private var listWidth: CGFloat {
-    if let fold, fold.height > fold.width { return fold.midX.rounded() }
-    return max(320, (width / 2).rounded())
+    let split = FoldSplit(fold: fold, frame: frame, window: window)
+    return max(320, (split.isVertical ? split.x : frame.width / 2).rounded())
 }
 ```
+
+Flat or half folded, the list gets the same width, so nothing jumps as the
+Duo folds. Flat, a real Duo floats the list over the detail; half folded,
+it tiles them.
 
 ## Two pages
 
@@ -68,20 +73,24 @@ private var listWidth: CGFloat {
 struct TwoPages<Leading: View, Trailing: View>: View {
     @ViewBuilder var leading: Leading
     @ViewBuilder var trailing: Trailing
-    @State private var width: CGFloat = 0
+    @Environment(\.windowSize) private var window
+    @State private var frame: CGRect = .zero
     @State private var fold: CGRect?
 
     var body: some View {
-        let split = fold.map { $0.midX } ?? width / 2
-        let gap = fold?.width ?? 0
-        HStack(spacing: gap) {
-            leading.frame(width: max(0, split - gap / 2))
+        let split = FoldSplit(fold: fold, frame: frame, window: window)
+        HStack(spacing: split.gap) {
+            leading.frame(width: max(0, split.x - split.gap / 2))
             trailing.frame(maxWidth: .infinity)
         }
-        .readsFold(width: $width, fold: $fold)
+        .readsFold(frame: $frame, fold: $fold)
     }
 }
 ```
+
+To spread a detail over both pages, hide the list from a button:
+`columnVisibility = .detailOnly`. Set in the first `.task`, it does not hold:
+the split view resets its columns during its first layout.
 
 A `List` or `ScrollView` page keeps no margin on its fold side, so its cards
 run into the fold and meet the other page's cards at the center. Give each

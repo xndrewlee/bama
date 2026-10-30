@@ -176,7 +176,8 @@ Status: todo
 
 - The iOS 27.1 simulator runtime runs only the iPhone Duo. Check iOS 27.0 on an iPhone 18 Pro (`APP_DEVICE="iPhone 18 Pro"`); the template's tools create it on first use.
 - No script can open, fold, or rotate the Duo simulator. Size-only snapshots cover the inner sizes. Tabletop, tent, and the left and right Split View halves need a person in Device Hub, so their acceptance lines are `[manual]`.
-- The fold is a `.division` region only while the Duo is half folded. Flat, it has no width: split in half then, and read the region when it is there. Never lay out from the hinge angle.
+- The fold is a `.division` region only while the Duo is half folded. Flat, there is no region: split at the middle of the window, measured inside `.ignoresSafeArea()` (the template's `FoldSplit`). The open Duo keeps 84 pt of safe area on the right, so the middle of the view or the safe area misses the fold. Never lay out from the hinge angle.
+- Flat, a real Duo floats the list over a dimmed book page; half folded, it tiles them. Both are fine. The simulator always tiles at 951 x 669, so check the phone.
 - A 3-column split view with no selection shows only an empty detail on a regular width. Start with `columnVisibility` at `.doubleColumn`.
 - Notes are scrolling content: they may pass over the fold. The add field and the book card's buttons may not.
 - The outer display's safe area is 84 pt on the right, where the status bar and the toolbar buttons stand. A full-width custom bar collides with it.

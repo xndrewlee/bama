@@ -149,7 +149,7 @@ only rounded corners. Each half of the inner display (4.36 x 3.10 in) has
 the outer display's size (4.42 x 3.04 in), so a book-style hinge crosses the
 middle of the inner display's long side, 475.5 pt in: a vertical line at
 951 x 669, a horizontal one at 669 x 951. That is also the smallest width
-`appResize` allows, 475 pt. Inferred, not measured: confirm in Device Hub.
+`appResize` allows, 475 pt. Confirmed on a real Duo in step 9 (below).
 
 The verification report must say which poses had only a size check and
 which need a human pass.
@@ -161,6 +161,37 @@ iPhone on the iOS 27.0 runtime, such as an iPhone 18 Pro. It proves the
 creates an iPhone 18 Pro Max, iPhone 17, iPhone 17e, and iPhone Air, but
 no iPhone 18 Pro. The template's `tools/env.sh` creates a missing device on
 first use (`APP_DEVICE="iPhone 18 Pro" make snapshot`).
+
+### On a real iPhone Duo
+
+Measured in step 9 on an iPhone Duo with iOS 27.2, running Shelf
+(`specs/duo-reading-list.md`), with `devicectl` screenshots and a debug
+log copied out of the app:
+
+- Half folded and held like a book, the list's edge, set from the
+  `.division` region's `midX`, landed at 476 pt.
+- Flat, `reservedRegions(kind: .division)` returns no region, active or
+  not. A split falls back to the middle of the window.
+- Flat and held like a book, the window is 951 x 669, with safe areas of
+  0 top, 0 leading, 34 bottom, and 84 trailing (the status bar and the
+  vertical toolbar). `Color.clear.ignoresSafeArea().onGeometryChange`
+  reports 867 x 635: the modifier measures the frame before the expansion.
+  Measuring inside, `Color.clear.onGeometryChange(...).ignoresSafeArea()`,
+  reports 951 x 669. Shelf's first spread met at 434 pt, 42 pt left of the
+  fold; measured inside, it meets at 475.5 pt.
+- Flat, `NavigationSplitView` floats the list over a dimmed detail, with
+  `.navigationSplitViewStyle(.balanced)` or without. Half folded, it tiles
+  them. The simulator tiles at 951 x 669.
+- `columnVisibility` set in the first `.task` comes back as `.doubleColumn`
+  about 20 ms later. Set a second after launch, it holds.
+- `tabletop` uses the inner display in portrait, 669 x 951, the fold
+  across. `tent` uses the outer display in landscape, 678 x 466, compact
+  width and height.
+- `devicectl device info displays` lists both displays with a
+  `uniqueId`, and `devicectl device capture screenshot --display-unique-id`
+  captures either one. `devicectl device process launch -e '<json>'`
+  passes environment variables to the app. `devicectl device copy from
+  --domain-type appDataContainer` copies a file out of the app's container.
 
 ## 3. `devicectl` and a locked phone
 

@@ -20,7 +20,9 @@ repeat the search:
   simulator's Resizable screen. The app gets a right-hand system column, a
   camera region, and safe areas like the outer display's, and size classes
   from its width. The screenshot has no status bar, and there is no fold.
-- Everything else is a human pass in Device Hub.
+- Everything else is a human pass in Device Hub, or on the user's own
+  iPhone Duo, where a script opens the page and takes the screenshots while
+  the person folds the phone.
 
 A change is done when five things are true:
 
@@ -137,6 +139,45 @@ xcrun simctl io booted screenshot --display=1 outer.png   # 3 for the inner disp
 
 Check them against the list in step 4. A pose nobody checked stays in the
 report as "needs a human pass", and its stories stay open.
+
+### On the user's iPhone Duo
+
+A real Duo shows what the simulator cannot: the hinge, the fold's frame,
+and the real system column. With the app installed (`bama-deploy-to-device`)
+and the user's yes, open each page on a demo store, ask the user for one
+pose at a time, and take the screenshots yourself:
+
+```bash
+xcrun devicectl list devices                              # the phone's udid
+xcrun devicectl device info displays --device <udid>      # each display's uniqueId
+xcrun devicectl device process launch --device <udid> --terminate-existing \
+  -e '{"APP_STORE":"demo.store","APP_SEED":"1","APP_OPEN":"<page>"}' <bundle-id>
+xcrun devicectl device capture screenshot --device <udid> \
+  --display-unique-id <uniqueId> --destination inner.png
+```
+
+- `demo.store` is a bare name, so it lands in the app's temporary folder.
+  The person's real data stays untouched.
+- `APP_OPEN` takes a sidebar page or a screen from `Snapshot.swift`, and
+  opens it a second after launch.
+- The phone must be unlocked to launch the app.
+- For a value the screen does not show, write it to a file in
+  `URL.temporaryDirectory`, and copy the file off with
+  `xcrun devicectl device copy from --device <udid> --domain-type appDataContainer --domain-identifier <bundle-id> --source tmp/<file> --destination <file>`.
+  Remove the logging before you commit.
+
+Where the phone differs from the simulator:
+
+- Held like a book, the window is 951 x 669 with 84 pt of safe area on the
+  right and 34 pt at the bottom. A split measured from the safe area lands
+  42 pt left of the fold.
+- Flat, there is no fold region, and iOS floats the list over a dimmed
+  detail. Half folded, it tiles them on the fold.
+- `tabletop` is the inner display in portrait. `tent` is the outer display
+  in landscape, 678 x 466.
+
+Measure a split from the screenshot: the gap between two pages should be
+centered on 475.5 pt.
 
 ## 6. Report
 

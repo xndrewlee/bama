@@ -6,7 +6,8 @@ import SwiftUI
 /// the detail side by side on a regular width (the inner display).
 struct ContentView: View {
     @Environment(AppModel.self) private var model
-    @State private var width: CGFloat = 0
+    @Environment(\.windowSize) private var window
+    @State private var frame: CGRect = .zero
     @State private var fold: CGRect?
 
     var body: some View {
@@ -19,7 +20,7 @@ struct ContentView: View {
         } detail: {
             ItemDetail()
         }
-        .readsFold(width: $width, fold: $fold)
+        .readsFold(frame: $frame, fold: $fold)
         .sheet(isPresented: $model.showSettings) {
             SettingsView()
                 .environment(model)
@@ -27,17 +28,18 @@ struct ContentView: View {
         }
         .task {
             SeedData.insertIfRequested(into: model)
+            Snapshot.openIfRequested(model: model)
             SelfTest.runIfRequested(model: model)
             Snapshot.runIfRequested(model: model)
         }
     }
 
-    /// The list takes the leading half. On an iPhone Duo held open like a
-    /// book, the fold runs down the middle, so the list and the detail each
-    /// get one page and nothing sits on the fold.
+    /// The list takes the leading half, up to the fold. On an iPhone Duo
+    /// held open like a book, the list and the detail each get one page and
+    /// nothing sits on the fold.
     private var listWidth: CGFloat {
-        if let fold, fold.height > fold.width { return fold.midX.rounded() }
-        return max(320, (width / 2).rounded())
+        let split = FoldSplit(fold: fold, frame: frame, window: window)
+        return max(320, (split.isVertical ? split.x : frame.width / 2).rounded())
     }
 
     private var sidebar: some View {

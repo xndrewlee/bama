@@ -20,7 +20,8 @@ rest.
 
 Sources: Apple's iPhone Duo talks and the "Designing for iPhone Duo" HIG
 page, the duology skills by kimeur, and measurements from the iPhone Duo
-simulator in Xcode 27.1. Every API here was checked against the SDK.
+simulator in Xcode 27.1 and a real iPhone Duo on iOS 27.2. Every API here
+was checked against the SDK.
 
 ## 1. Sizes, not devices
 
@@ -43,7 +44,7 @@ simulator in Xcode 27.1. Every API here was checked against the SDK.
 | `inner-landscape` | inner, held like a book | 951 x 669 | regular / regular | reading, comparing | one more level of hierarchy: list and detail, two pages |
 | `inner` | inner, rotated | 669 x 951 | regular / regular | reading long content | a split stacks top and bottom |
 | `tabletop` | inner, half folded on a table | 669 x 951, fold across | regular / regular | on a call, watching | media on the top half, controls on the stable bottom half |
-| `tent` | standing on its edges | landscape | from the size | watching from a distance | landscape media, large targets |
+| `tent` | outer, landscape, standing on its edges | 678 x 466 | compact / compact | watching from a distance | landscape media, large targets |
 | `splitview-left`, `splitview-right` | half the inner display | 475 x 669 | compact / regular | using two apps | one column; system buttons on the outer edge |
 
 Do not build one layout per pose. An optional tabletop layout keeps every
@@ -55,7 +56,9 @@ checked in with the words in the first column.
 - **List and detail: `NavigationSplitView`.** Closed, it is one stack.
   Open, it shows the list and the detail side by side, with the split on
   the fold (the template's `ContentView.swift`). At 669 pt wide iOS may lay
-  the list over a dimmed detail; that is fine. A regular width that shows
+  the list over a dimmed detail, and so does a real Duo lying flat at any
+  width, `.balanced` style or not; half folded, it tiles them on the fold.
+  All of that is fine. A regular width that shows
   only an empty detail, with the list behind a button, is not: start with
   `columnVisibility` at `.doubleColumn`.
 - **A few separate areas: `TabView`.** With `.tabViewStyle(.sidebarAdaptable)`
@@ -81,17 +84,25 @@ checked in with the words in the first column.
 
 The fold is a reserved region of kind `.division`. Half folded, it is a
 40 pt band (margins included) across the middle of the inner display's
-long side. Flat, it has no width. Read it with
-`GeometryProxy.reservedRegions(kind: .division)`; the template wraps that
-in `readsFold(width:fold:)` (`UI/Fold.swift`):
+long side. Flat, there is no region at all, and the fold is the middle of
+the window. Read it with `GeometryProxy.reservedRegions(kind: .division)`;
+the template wraps both cases in `FoldSplit` (`UI/Fold.swift`):
 
 ```swift
-@State private var width: CGFloat = 0
+@Environment(\.windowSize) private var window   // from measuresWindow() on the root view
+@State private var frame: CGRect = .zero
 @State private var fold: CGRect?   // nil: closed, flat, another iPhone, or iOS 27.0
 
-content.readsFold(width: $width, fold: $fold)
-let split = fold?.midX ?? width / 2
+content.readsFold(frame: $frame, fold: $fold)
+let split = FoldSplit(fold: fold, frame: frame, window: window)
+// split.x, split.y: where to split, in this view's coordinates
+// split.gap: the band to keep clear, 0 when flat
 ```
+
+Flat, split at the window's middle, not the view's: a sidebar, a toolbar,
+or the 84 pt system column pushes the view off center. Measure the window
+inside `.ignoresSafeArea()`. Outside it, a flat Duo's window measures
+867 x 635, and its middle misses the fold by 42 pt.
 
 1. **Keep fixed things off it.** Controls, titles, and faces in photos
    never sit on the fold band. Scrolling content may pass over it; never
@@ -101,8 +112,8 @@ let split = fold?.midX ?? width / 2
    one centered group (a timer, a player) puts that group on the fold: on a
    regular width give each half one part, left and right when the screen is
    wide, top and bottom when it is tall. Split on the fold's frame when there
-   is one and on the middle when the Duo lies flat, so nothing jumps as it
-   folds.
+   is one and on the window's middle when the Duo lies flat, so nothing
+   jumps as it folds.
 3. **Move a little.** A custom control near the middle shifts to one side,
    alone or with its group. The rest of the screen stays put.
 4. **Let the system move its own parts.** Sheets, alerts, menus, and
@@ -123,7 +134,8 @@ are in [patterns.md](patterns.md).
 - Foreground content stays inside the safe area. Backgrounds run past it
   with `.ignoresSafeArea()` or `.backgroundExtensionEffect()`.
 - Insets are not symmetric. The closed Duo in portrait measures 0 top,
-  0 leading, 34 bottom, and 84 trailing. Pad each side from its own inset.
+  0 leading, 34 bottom, and 84 trailing, and so does the open Duo held like
+  a book. Pad each side from its own inset.
   Never compute `width - insets.leading * 2`.
 - In Split View the system buttons sit on the app's outer edge, so the app
   on the left and the app on the right get different insets. Check both.

@@ -24,7 +24,7 @@ on iOS 27. It keeps its data on the phone in SwiftData, with no server.
   `APP_SIZE=951x669 make snapshot` renders the app at that size in points (size classes only, no fold). The bama-build-and-verify-ios skill runs every iPhone Duo pose this way.
 - Snapshots, seed data, and the self-test refuse to run without `APP_STORE` in /tmp. Never test against the app's real database.
 - Then check the grid: `make check`. Both checks print PASS.
-- Compile for a real iPhone, unsigned: `make build-device`. Installing on the phone is `make deploy`, which the bama-deploy-to-device skill sets up.
+- Compile for a real iPhone, unsigned: `make build-device`. Installing on the phone is `make deploy`, which the bama-deploy-to-device skill sets up. On the phone, `APP_STORE=demo.store APP_SEED=1 APP_OPEN=<page>` opens a page on a demo store (bama-build-and-verify-ios, human pass).
 - A change is done when the build has no errors or warnings, the self-test and grid checks pass, and you looked at the light and dark snapshots on the Duo and on a non-Duo iPhone (`APP_DEVICE="iPhone 18 Pro" make snapshot`).
 
 ## Platform rules

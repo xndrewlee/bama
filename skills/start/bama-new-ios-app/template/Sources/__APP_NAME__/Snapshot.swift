@@ -16,6 +16,22 @@ import UIKit
 /// APP_SNAPSHOT_PAGES=all,starred limits the pages. Add "settings" to include Settings.
 /// Add APP_ACCENT=<id> to see the pages in another accent.
 enum Snapshot {
+    /// Opens one sidebar page, or settings, at launch, for a look on the real
+    /// phone, where no script can tap: APP_OPEN=starred with a test store. It
+    /// waits a second: during the first layout a split view resets its columns.
+    static func openIfRequested(model: AppModel) {
+        guard Store.isOverridden, let name = ProcessInfo.processInfo.environment["APP_OPEN"] else { return }
+        Task {
+            try? await Task.sleep(for: .seconds(1))
+            model.compactColumn = .content
+            if let page = SidebarItem(rawValue: name) {
+                model.sidebar = page
+            } else if name == "settings" {
+                model.showSettings = true
+            }
+        }
+    }
+
     static func runIfRequested(model: AppModel) {
         let env = ProcessInfo.processInfo.environment
         guard let dir = env["APP_SNAPSHOT"], !dir.isEmpty else { return }
