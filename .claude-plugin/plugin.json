@@ -52,6 +52,7 @@
     "./skills/ship/bama-build-and-verify-ios",
     "./skills/ship/bama-deploy-to-device",
     "./skills/ship/bama-test-mac-app",
+    "./skills/ship/bama-test-ios-app",
     "./skills/ship/bama-improve-loop"
   ]
 }
