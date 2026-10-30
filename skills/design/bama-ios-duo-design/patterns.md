@@ -94,7 +94,9 @@ the split view resets its columns during its first layout.
 
 A `List` or `ScrollView` page keeps no margin on its fold side, so its cards
 run into the fold and meet the other page's cards at the center. Give each
-page a margin there:
+page a margin there. Half folded, the gap between the pages shows what is
+behind them, a white stripe beside grouped lists, so give the pages their
+background too:
 
 ```swift
 TwoPages {
@@ -104,6 +106,7 @@ TwoPages {
     List { NotesSection(book: book) }
         .contentMargins(.leading, 20, for: .scrollContent)
 }
+.background(Color(.systemGroupedBackground))
 ```
 
 Check it with layout probes: `.gridArea("left-page")` on each page writes its
