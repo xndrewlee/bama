@@ -42,9 +42,6 @@ It prints `mac`, `ios`, or `unknown`, and the reason.
   `Platform: mac`, `Platform: iphone`, or `Platform: iphone-duo`. The check
   reads it from then on.
 
-The iPhone skills are still being added. If the Skill tool cannot find one,
-tell the user iPhone support for that step is not built yet, and stop.
-
 ## Plan
 
 | The user has | Skill |

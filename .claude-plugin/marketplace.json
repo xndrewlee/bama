@@ -4,12 +4,12 @@
     "name": "Dave Ebbelaar",
     "url": "https://github.com/daveebbelaar"
   },
-  "description": "Build any Mac app. Agent skills for native macOS apps with Swift and SwiftUI.",
+  "description": "Build any Mac or iPhone app. Agent skills for native macOS and iPhone apps with Swift and SwiftUI.",
   "plugins": [
     {
       "name": "bama",
       "source": "./",
-      "description": "Build any Mac app: skills to research, clone, plan, scaffold, design, integrate, optimize, test, and ship native macOS apps with Swift and SwiftUI.",
+      "description": "Build any Mac or iPhone app: skills to research, clone, plan, scaffold, design, integrate, optimize, test, and ship native macOS and iPhone apps, iPhone Duo included, with Swift and SwiftUI.",
       "category": "development",
       "keywords": [
         "macos",
@@ -20,7 +20,10 @@
         "computer-use",
         "clone",
         "performance",
-        "skills"
+        "skills",
+        "ios",
+        "iphone",
+        "iphone-duo"
       ]
     }
   ]

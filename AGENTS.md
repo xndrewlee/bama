@@ -1,6 +1,6 @@
 # BAMA
 
-Agent skills for building native macOS apps. Installed as a Claude Code and
+Agent skills for building native macOS and iPhone apps. Installed as a Claude Code and
 Codex plugin from `.claude-plugin/`, or through `npx skills add`.
 `AGENTS.md` at the root is a copy of this file (`.claude/CLAUDE.md`);
 keep them identical.
@@ -17,7 +17,7 @@ keep them identical.
   description. A user-invoked skill also sets
   `policy.allow_implicit_invocation: false`.
 - `.claude-plugin/plugin.json` lists every shipped skill in `skills`.
-- `specs/<app>.md`: build plans for small apps, taken from Onyx. Each has
+- `specs/<app>.md`: build plans for small apps, most taken from Onyx. Each has
   Brief, How it works, Stories, Gotchas, and a "Done when" line, in that
   order. `specs/README.md` lists them.
 

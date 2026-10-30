@@ -6,12 +6,13 @@
   <img alt="BAMA: Build Any Mac App" src="docs/assets/banner-light.png" width="860">
 </picture>
 
-### See an app you like. Rebuild it as your own native Mac app.
+### See an app you like. Rebuild it as your own native Mac or iPhone app.
 
-Agent skills that take a native macOS app from idea to your Dock.<br>
+Agent skills that take a native app from idea to your Dock or your iPhone.<br>
 Swift and SwiftUI. Local data. No Xcode GUI.
 
 [![macOS 26+](https://img.shields.io/badge/macOS-26%2B-000000?style=flat-square&logo=apple&logoColor=white)](#requirements)
+[![iOS 27+](https://img.shields.io/badge/iOS-27%2B-000000?style=flat-square&logo=apple&logoColor=white)](#requirements)
 [![Swift 6.2](https://img.shields.io/badge/Swift-6.2-F05138?style=flat-square&logo=swift&logoColor=white)](#requirements)
 [![27 skills](https://img.shields.io/badge/skills-27-5E5CE6?style=flat-square)](#skills)
 [![Claude Code plugin](https://img.shields.io/badge/Claude_Code-plugin-D97757?style=flat-square&logo=claude&logoColor=white)](#install)
@@ -29,7 +30,7 @@ This is a fork of [daveebbelaar/bama](https://github.com/daveebbelaar/bama). It 
 - **Every skill is named `bama-<name>`.** Upstream's generic names, like `research`, `clone`, and `performance`, clashed with other skill packs. The router is still `/bama`. The naming scheme comes from the [hmaddocks/bama](https://github.com/hmaddocks/bama) fork by hmaddocks.
 - **The link script keeps other skills safe.** `scripts/link-skills.sh` replaces only links that point into your clone. If another skill or folder has the same name, the script leaves it alone, names it, and exits with an error. It also removes links into your clone whose skill is gone, such as the old names without the prefix.
 - **Installs come from this fork.** The install commands below and `plugin.json` point at `xndrewlee/bama`.
-- **iPhone and iPhone Duo support is in progress.** The plan is in [docs/ios-duo-support.md](docs/ios-duo-support.md). So far `/bama` tells Mac and iPhone projects apart, `bama-new-ios-app` scaffolds an iPhone app that runs on the iPhone Duo simulator, `bama-build-and-verify-ios` snapshots it in every Duo pose a script can reach, `bama-ios-duo-design` has the layout rules for every pose and the fold, and `bama-deploy-to-device` installs it on your own iPhone and keeps it alive with a free Apple ID. The Mac path works as before.
+- **iPhone and iPhone Duo apps.** `/bama` tells Mac and iPhone projects apart and picks the iPhone skills on its own: `bama-new-ios-app` (an XcodeGen project that builds and runs on the iPhone Duo simulator), `bama-ios-duo-design`, `bama-ios-integrations`, `bama-build-and-verify-ios` (snapshots in every Duo pose a script can reach), `bama-test-ios-app`, and `bama-deploy-to-device` (installs on your own iPhone and keeps the app alive with a free Apple ID). The shared skills learned the iPhone too. [specs/duo-reading-list.md](specs/duo-reading-list.md) is the end-to-end test. The plan is [docs/ios-duo-support.md](docs/ios-duo-support.md); what the toolchain can and cannot do is in [docs/ios-investigation.md](docs/ios-investigation.md). The Mac path works as before.
 
 ## Quick start
 
@@ -42,6 +43,12 @@ Then ask your agent:
 ```text
 Clone my to-do app as a native Mac app.
 Screenshot every screen, write the user stories, and build milestone 1.
+```
+
+Or for your phone:
+
+```text
+Build me a reading-list app for my iPhone Duo with BAMA.
 ```
 
 Not sure where to start? Type `/bama`. It looks at your project and picks the next skill.
@@ -111,7 +118,7 @@ Every skill is named `bama-<name>`, so it sits next to other skill packs without
 
 ## Specs
 
-Not sure what to build? [specs/](specs/) has 12 build plans for small Mac apps: a window snapper, a window switcher, a launcher, clipboard history, screenshots, a screen recorder, and more. I took them apart from Onyx, my own menu bar app. Copy one into an empty folder and tell your agent:
+Not sure what to build? [specs/](specs/) has 12 build plans for small Mac apps: a window snapper, a window switcher, a launcher, clipboard history, screenshots, a screen recorder, and more. I took them apart from Onyx, my own menu bar app. For iPhone, [duo-reading-list.md](specs/duo-reading-list.md) is a reading list that uses every iPhone Duo pose. Copy one into an empty folder and tell your agent:
 
 ```text
 Build the app in window-snapper.md with BAMA.
@@ -172,13 +179,23 @@ The script replaces only links that point into your clone. If another skill or f
 - An agent that supports skills: Claude Code, Codex, Cursor, Gemini CLI
 - For `bama-clone` on native apps: computer use (Claude Pro or Max)
 
+For iPhone apps, also:
+
+- Xcode 27.1 or later, for the iOS 27.1 SDK and the iPhone Duo simulator.
+  Apps target iOS 27.0 and later.
+- [XcodeGen](https://github.com/yonaskolb/XcodeGen): `brew install xcodegen`
+- To install on your own iPhone: a free Apple ID signed in to Xcode once (the
+  only time you open it), a cable for the first pairing, and Developer Mode
+  on the phone. `bama-deploy-to-device` walks through it.
+
 ## Credits
 
 - The idea and the "any" promise come from
   [REA: Reverse Engineer Anything](https://github.com/morluto/rea) by morluto.
   REA showed that an agent can reverse engineer any app. BAMA takes that idea to the Mac.
-- The `bama-` prefix and the link script that keeps other skills safe come from
-  the [hmaddocks/bama](https://github.com/hmaddocks/bama) fork by hmaddocks.
+- The `bama-` prefix, the link script that keeps other skills safe, and the
+  XcodeGen and simulator approach for iPhone apps come from the
+  [hmaddocks/bama](https://github.com/hmaddocks/bama) fork by hmaddocks.
 - iPhone Duo guidance comes from Apple's [iPhone Duo](https://developer.apple.com/iphone-duo/)
   Tech Talks and the "Designing for iPhone Duo" HIG page.
 - The iPhone Duo layout patterns follow the [duology](https://github.com/Kimeur/duology)
