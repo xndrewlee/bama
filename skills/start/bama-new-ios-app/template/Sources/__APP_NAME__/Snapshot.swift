@@ -1,3 +1,4 @@
+import SwiftData
 import SwiftUI
 import UIKit
 
@@ -16,9 +17,23 @@ import UIKit
 /// APP_SNAPSHOT_PAGES=all,starred limits the pages. Add "settings" to include Settings.
 /// Add APP_ACCENT=<id> to see the pages in another accent.
 enum Snapshot {
-    /// Opens one sidebar page, or settings, at launch, for a look on the real
-    /// phone, where no script can tap: APP_OPEN=starred with a test store. It
-    /// waits a second: during the first layout a split view resets its columns.
+    /// Sheets and screens beyond the sidebar pages: a name, how to show it,
+    /// and how to put the app back. Add one for every sheet, full-screen
+    /// cover, and detail a story adds; APP_OPEN uses the same names.
+    private static let screens: [(name: String, show: (AppModel) -> Void, hide: (AppModel) -> Void)] = [
+        ("item", { $0.selection = first($0)?.id; $0.compactColumn = .detail },
+         { $0.selection = nil; $0.compactColumn = .content }),
+    ]
+
+    /// The newest item, the one the snapshots show.
+    private static func first(_ model: AppModel) -> Item? {
+        try? model.container.mainContext.fetch(FetchDescriptor<Item>(sortBy: [SortDescriptor(\.createdAt, order: .reverse)])).first
+    }
+
+    /// Opens one sidebar page, screen, or settings at launch, for a look on
+    /// the real phone, where no script can tap: APP_OPEN=item with a test
+    /// store. It waits a second: during the first layout a split view resets
+    /// its columns.
     static func openIfRequested(model: AppModel) {
         guard Store.isOverridden, let name = ProcessInfo.processInfo.environment["APP_OPEN"] else { return }
         Task {
@@ -28,6 +43,8 @@ enum Snapshot {
                 model.sidebar = page
             } else if name == "settings" {
                 model.showSettings = true
+            } else {
+                screens.first { $0.name == name }?.show(model)
             }
         }
     }
@@ -56,6 +73,13 @@ enum Snapshot {
                     model.sidebar = page
                     try? await Task.sleep(for: .seconds(0.8))
                     await capture("\(page.rawValue)-\(name(style))", in: dir)
+                }
+                for screen in screens where only?.contains(screen.name) ?? true {
+                    screen.show(model)
+                    try? await Task.sleep(for: .seconds(1))
+                    await capture("\(screen.name)-\(name(style))", in: dir)
+                    screen.hide(model)
+                    try? await Task.sleep(for: .seconds(0.8))
                 }
             }
             if only == nil || only?.contains("settings") == true {

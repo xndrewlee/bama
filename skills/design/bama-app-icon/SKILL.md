@@ -158,7 +158,11 @@ Xcode, which compiles it on every build. There is no `make_icon.sh` step.
   ~/Library/Developer/<App>/build/Build/Products/Debug-iphonesimulator/<App>.app/Assets.car`
   lists `AppIcon` image groups, and a screenshot of the simulator's Home
   Screen shows the icon.
+- Steps 3 and 6 do not apply. Review with `tools/icon_review.sh`, which
+  renders the iOS looks: Default, Dark, Tinted, and Clear at 256 pt, then
+  60 pt (Home Screen) and 29 pt (Settings).
 
-Done when `tools/make_icon.sh` succeeds, the contact sheet shows a clear
-glyph in all four looks and at 16 pt, the icon uses no SF Symbol, and the
-Dock shows the new icon.
+Done when the icon compiles (`tools/make_icon.sh` on the Mac, the build on
+iPhone), the contact sheet shows a clear glyph in all four looks and at its
+smallest size, the icon uses no SF Symbol, and the Dock or the Home Screen
+shows the new icon.
