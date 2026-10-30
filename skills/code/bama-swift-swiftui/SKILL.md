@@ -1,6 +1,6 @@
 ---
 name: bama-swift-swiftui
-description: Swift 6 and SwiftUI code rules for macOS apps, including concurrency, state, SwiftData, AppKit bridges, and fixes for common compiler errors. Use when writing, reviewing, or debugging Swift code in a Mac app, or on concurrency, Sendable, or "not in scope" errors.
+description: Swift 6 and SwiftUI code rules for Mac and iPhone apps, including concurrency, state, SwiftData, AppKit and UIKit bridges, and fixes for common compiler errors. Use when writing, reviewing, or debugging Swift code in a Mac or iPhone app, or on concurrency, Sendable, or "not in scope" errors.
 ---
 
 # Swift and SwiftUI
@@ -121,11 +121,37 @@ SwiftUI covers windows, lists, and forms. AppKit is still the answer for:
 For system hooks (hotkeys, Accessibility, screen capture), call the Skill
 tool with `bama-os-integrations`.
 
+## UIKit bridges
+
+On iPhone, SwiftUI covers screens, lists, forms, sheets, and tabs. UIKit is
+still the answer for:
+
+- A text view with custom behavior: `UIViewRepresentable` around `UITextView`.
+- A controller SwiftUI lacks, like a custom camera preview on an
+  `AVCaptureVideoPreviewLayer`: `UIViewControllerRepresentable`.
+- The iPhone Duo's fold and hinge inside a bridged view:
+  `reservedRegions(kind: .division)` and `UIHingeInteraction`, iOS 27.1
+  (code in `bama-ios-duo-design`, patterns.md).
+
+Rules for both representables:
+
+- Make the view or controller once in `make...`, and change it only in
+  `update...`. `update` runs often; compare before you set.
+- Talk back through a `Coordinator`. Delegates and target-actions live
+  there, holding the struct's bindings.
+- Size a view to its content with `sizeThatFits(_:uiView:context:)`.
+- Read the screen from the view (`traitCollection.displayScale`,
+  `window?.windowScene?.screen`), never `UIScreen.main`.
+
+For system hooks (widgets, App Intents, the camera), call the Skill tool
+with `bama-ios-integrations`.
+
 ## Compiler errors
 
 | Error | Fix |
 | --- | --- |
-| `cannot find 'X' in scope` right after adding a file | `swift package clean --scratch-path ~/Library/Developer/<AppName>/build` |
+| `cannot find 'X' in scope` right after adding a file | `swift package clean --scratch-path ~/Library/Developer/<AppName>/build`; in an iPhone app, `make generate`, then build |
+| `'X' is only available in iOS 27.1 or newer` | Put it behind `if #available(iOS 27.1, *)` with a 27.0 fallback |
 | `Main actor-isolated ... from a nonisolated context` | Make the caller main-actor, or `await` the call |
 | `Sending 'x' risks causing data races` | Make the type `Sendable`, or keep it on one actor |
 | `The compiler is unable to type-check this expression` | Split the view into smaller subviews or `let` constants |

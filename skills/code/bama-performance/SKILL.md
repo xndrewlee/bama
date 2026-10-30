@@ -1,6 +1,6 @@
 ---
 name: bama-performance
-description: Make a macOS app fast by measuring hangs, stutter, CPU, memory, and energy, then moving work off the main thread and onto the GPU. Use when the app freezes, a shortcut feels slow, dragging stutters, the fan spins, memory grows, or the user asks to optimize or profile.
+description: Make a Mac or iPhone app fast by measuring hangs, stutter, CPU, memory, and energy, then moving work off the main thread and onto the GPU. Use when the app freezes, a shortcut feels slow, dragging stutters, the fan spins, memory grows, or the user asks to optimize or profile.
 ---
 
 # Performance
@@ -19,7 +19,7 @@ reproduce -> measure (release build) -> find the line -> fix -> measure again ->
 ```
 
 1. **Reproduce.** Write the exact steps, or add a probe command to the
-   debug bridge (`bama-test-mac-app` skill) that runs the slow action and logs
+   debug bridge (`bama-test-mac-app` skill, or `bama-test-ios-app` on iPhone) that runs the slow action and logs
    the time of each step.
 2. **Measure the release build.** Debug Swift is 3 to 10 times slower and
    points at the wrong code.
@@ -69,6 +69,30 @@ reproduce -> measure (release build) -> find the line -> fix -> measure again ->
 - Unified memory means a `CGImage` from ScreenCaptureKit passes to a layer
   without a copy. Keep it as a `CGImage` or `IOSurface`. Converting to
   `NSImage` and back costs copies.
+
+## On iPhone
+
+The simulator runs on the Mac's CPU and GPU, so it finds the slow line but
+not the phone's speed. Profile on the simulator, then confirm the numbers
+on the phone.
+
+```bash
+pid=$(xcrun simctl launch --terminate-running-process booted <bundle-id> | grep -oE '[0-9]+$')
+xcrun xctrace record --template 'Time Profiler' --device <udid> --attach $pid --time-limit 10s --output /tmp/<App>.trace
+xcrun xctrace export --input /tmp/<App>.trace --toc
+```
+
+On the phone, use its UDID from `xcrun devicectl list devices` with a
+build from `make deploy` (not checked on hardware).
+
+- There is no pointer: profile scrolling and the iPhone Duo's resizes with
+  `--template 'Animation Hitches'`. Every fold and rotation resizes the
+  app, so a layout pass must stay cheap.
+- UIKit and SwiftUI already composite on the GPU. What costs more on the
+  phone: blurs and shadows on scrolling content, shadows without a
+  `shadowPath`, and masks, which force offscreen passes.
+- Decode images at display size, as on the Mac, and cache them per screen
+  scale (`traitCollection.displayScale`): the Duo's two displays share 3x.
 
 Done when the slow action has a measured before and after, the after meets
 the two numbers at the top, and the commit message names both.
