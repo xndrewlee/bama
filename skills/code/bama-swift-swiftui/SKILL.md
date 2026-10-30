@@ -45,6 +45,8 @@ on the main actor unless you say otherwise. UI code needs no annotations.
   trigger a redraw.
 - `@State` for view-local values. `@AppStorage` for small preferences.
   Keychain for secrets.
+- `.tint(nil)` is not "no change": it drops the inherited accent for the
+  system blue. Apply `.tint` only when there is a color.
 - `ForEach(items)` over values, never `ForEach($items)` for data the user
   can delete: a row can read an index that no longer exists and crash. Get
   a binding by looking the item up by id.

@@ -74,10 +74,23 @@ checked in with the words in the first column.
   bar. Read the side with `@Environment(\.toolbarVerticalEdge)`; turn it
   off with `.toolbarVerticalBehavior(.disabled)` only when a bar must stay
   horizontal.
+- **Bar items with text.** A toolbar item whose label is text (a menu
+  showing "Auto") does not join the side column: it gets a bar of its own
+  across the top, and the page loses that height. Give it a `Label` with a
+  symbol, and show the value on the page instead. A centered inline title
+  sits on the fold when the Duo is half folded; `.toolbar(removing: .title)`
+  keeps it for the back button and off the screen.
 - **Search.** On the closed Duo, `.searchable` in its default placement
   showed no field at all. When search is one of the page's jobs, use
   `.searchable(text:placement: .navigationBarDrawer(displayMode: .always))`:
-  the field stays under the title in every pose.
+  the field stays under the title in every pose. It spans the whole width,
+  so half folded it runs across the fold. Where the open Duo matters, put
+  your own field on one page instead, beside what the page leads with.
+- **Players and other immersive pages.** Push them onto the stack rather
+  than covering the tabs. They keep the status bar and the system back
+  button, and on the Duo their buttons join the side column. A full-screen
+  cover hid the status bar and spread the page under the column. Hide the
+  tab bar on the page with `.toolbar(.hidden, for: .tabBar)`.
 - **Sheets.** One task per sheet: Cancel leading, Done or Save trailing,
   medium and large detents. On the outer display a sheet keeps its bar on
   top, and a long form scrolls Cancel and Save away with it: put the fields

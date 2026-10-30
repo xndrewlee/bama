@@ -127,6 +127,10 @@ prints one line per test; the full log is in `/tmp/<App>-uitest.log`.
 - A compact width (the closed Duo) opens on the selected sidebar page's
   list, not on the sidebar. To reach another page, tap `BackButton`, then
   the page.
+- On the Duo the back button sits in the side column, in a toolbar, not a
+  navigation bar: `app.navigationBars.buttons` finds nothing. Query
+  `app.buttons["BackButton"]`, and fall back to the navigation bar on
+  other iPhones.
 - Find elements by an `.accessibilityIdentifier`, never by position. A row
   with a title and a subtitle is one element whose label joins both
   ("Piranesi, Susanna Clarke"): give it an identifier and query
