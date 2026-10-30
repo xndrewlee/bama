@@ -83,6 +83,23 @@ struct TwoPages<Leading: View, Trailing: View>: View {
 }
 ```
 
+A `List` or `ScrollView` page keeps no margin on its fold side, so its cards
+run into the fold and meet the other page's cards at the center. Give each
+page a margin there:
+
+```swift
+TwoPages {
+    List { BookCard(book: book) }
+        .contentMargins(.trailing, 20, for: .scrollContent)
+} trailing: {
+    List { NotesSection(book: book) }
+        .contentMargins(.leading, 20, for: .scrollContent)
+}
+```
+
+Check it with layout probes: `.gridArea("left-page")` on each page writes its
+frame to the snapshot's layout file, so you can see where the pages meet.
+
 ## Tabs to sidebar
 
 ```swift
