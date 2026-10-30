@@ -277,7 +277,20 @@ Checked on a real iPhone Duo:
   the sound going; the home gesture starts Picture in Picture instead.
 - The player's full screen covers the view that holds it, and SwiftUI calls
   that view's `onDisappear`. Never stop the player there: stop it in the
-  close button, or let it go with the view's state.
+  close button, or let it go with the view's state. On a pushed player page,
+  stop it when the page leaves the top of its stack (`path.last` changes),
+  not on `onDisappear`.
+- Going home, iOS lays the app out again at other sizes for the app
+  switcher. A player view that moves to another branch of an `if` there is
+  made again: the `AVPlayerViewController` in Picture in Picture goes, and
+  the video is paused when the person comes back. Hold the layout while
+  `scenePhase` is not `.active`, and pick the branch from the held value.
+  This only shows on a real phone: the simulator did not start Picture in
+  Picture from the home button.
+- To see what the player does on the phone, log its steps to a file in
+  `URL.temporaryDirectory` and copy it off with `devicectl device copy from`
+  (`bama-build-and-verify-ios`). Log `makeUIViewController` and
+  `dismantleUIViewController`: a player made twice explains a lost video.
 - An HLS playlist plays as is: `AVPlayerItem(url:)`. When the server sends
   one playlist per quality and no multivariant playlist, the player cannot
   adapt, and a high one stalls on Wi-Fi (1080p60 needs 9 Mbps; the phone got
