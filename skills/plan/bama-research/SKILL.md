@@ -1,6 +1,6 @@
 ---
 name: bama-research
-description: Online research for a macOS app before building it, run as parallel researcher subagents, saved to docs/research/. Use when the user asks what to build, which features matter, how the best apps in a category work, how a macOS API or integration works, or wants a feature comparison.
+description: Online research for a Mac or iPhone app before building it, run as parallel researcher subagents, saved to docs/research/. Use when the user asks what to build, which features matter, how the best apps in a category work, how a macOS or iOS API or integration works, or wants a feature comparison.
 argument-hint: "<app category or question>"
 ---
 
@@ -9,6 +9,8 @@ argument-hint: "<app category or question>"
 Research answers three questions before code exists: what the best apps in
 the category do, what users love and hate about them, and how macOS lets
 you build it. The output feeds `bama-app-brief` and `bama-user-stories`.
+For an iPhone app (`Platform: iphone` or `iphone-duo` in `docs/BRIEF.md`),
+read "macOS" as "iOS" below, and use the iPhone tracks.
 
 ## 1. Frame
 
@@ -30,11 +32,13 @@ covers many apps: give each subagent 3 or 4 apps, or the 600 words run out.
 | Features | The full feature list of the 2 or 3 leaders, from docs, changelogs, and help pages |
 | Design | Screens, interaction details, and keyboard shortcuts of the leaders |
 | Platform | The macOS APIs, permissions, and limits each feature needs, and what other apps on this Mac already use (global shortcuts, URL schemes, bundle ids) |
+| iOS APIs (iPhone, instead of Platform) | The iOS APIs, Info.plist permission keys, and limits each feature needs, and which features a free Apple ID cannot sign (App Groups, iCloud, push) |
+| Duo layout (`iphone-duo` only) | How the leaders use the closed and open displays and the fold, and which `bama-ios-duo-design` pattern fits each main page |
 
 Subagent brief (fill in the brackets):
 
 ```text
-Research [track] for a native macOS app that [one-line idea].
+Research [track] for a native [macOS or iPhone] app that [one-line idea].
 Question: [the question]. Decision it informs: [decision].
 Search the web. Prefer primary sources: official docs, changelogs, Apple
 developer docs, WWDC sessions, the app's own help pages. Use reviews and

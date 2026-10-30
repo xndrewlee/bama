@@ -1,6 +1,6 @@
 ---
 name: bama-clone
-description: Walk through any existing app (native Mac app with computer use, web app with a browser), screenshot every screen, menu, and dialog, write a screen index, and turn it into user stories. Use when the user wants to clone, rebuild, replace, or copy the design of an app, or says "screenshot every screen".
+description: Walk through any existing app (native Mac app with computer use, iPhone app through iPhone Mirroring, web app with a browser), screenshot every screen, menu, and dialog, write a screen index, and turn it into user stories. Use when the user wants to clone, rebuild, replace, or copy the design of an app, or says "screenshot every screen".
 argument-hint: "<app name as shown in the menu bar, or a URL>"
 ---
 
@@ -23,6 +23,8 @@ docs/STORIES.md      (from the bama-user-stories skill)
 | The app is | Use |
 | --- | --- |
 | A native Mac app, or Electron | Computer use (`mcp__computer-use__*`) |
+| An iPhone app from the App Store | Computer use on the iPhone Mirroring app (see "iPhone apps" below) |
+| An iPhone app you can build | The simulator: `bama-build-and-verify-ios` |
 | A web app | A browser tool: the built-in browser, Claude in Chrome, or Playwright |
 
 Computer use needs a Pro or Max plan, and Accessibility and Screen
@@ -66,6 +68,22 @@ index. In a browser, use the tool's screenshot with a file path.
 
 Name files `NN-page-or-state.png` in capture order. The walk is
 exhaustive when every sidebar item, menu, and settings pane has a file.
+
+### iPhone apps
+
+An App Store app does not run in the simulator. Walk it on the user's own
+phone through iPhone Mirroring (macOS 15 or later, the phone locked and
+nearby), with computer use on the iPhone Mirroring window. Save each
+screen with `window-shot.sh "iPhone Mirroring" docs/screens/<name>.png`.
+Walk tabs instead of the menu bar, and long-press for context menus.
+
+On an iPhone Duo, take the pages in every pose the user can hold: closed
+first, then ask the user to open the phone and take them again, then
+tabletop. Add the pose to each file name (`03-library-inner.png`) and to
+its index section, using the pose words from `bama-user-stories`. Whether
+iPhone Mirroring shows the inner display was not checked: if it shows only
+one screen, take the open poses with the phone's own screenshot (side
+button and volume up) and ask the user to AirDrop them.
 
 ## Lessons from real walkthroughs
 

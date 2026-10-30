@@ -1,6 +1,6 @@
 ---
 name: bama-user-stories
-description: Prioritized backlog of user stories with checkable acceptance criteria (docs/STORIES.md) for a macOS app, built from a brief, research, or screen index. Use after bama-app-brief or bama-clone, or when the user asks for user stories, a backlog, a feature list, or "what do we build first".
+description: Prioritized backlog of user stories with checkable acceptance criteria (docs/STORIES.md) for a Mac or iPhone app, built from a brief, research, or screen index. Use after bama-app-brief or bama-clone, or when the user asks for user stories, a backlog, a feature list, or "what do we build first".
 ---
 
 # User stories
@@ -38,6 +38,23 @@ Status: todo
   highlighting field that lives only in the quick-add panel ships with the
   panel.
 - Status: `todo`, `doing`, `done`, or `dropped`.
+
+### iPhone poses
+
+For an iPhone app, every story that shows something on screen names the
+poses it was checked in, with these words only: `outer`, `inner`,
+`inner-landscape`, `tabletop`, `tent`, `splitview-left`, `splitview-right`.
+`bama-ios-duo-design` says what each one is.
+
+```markdown
+- [snap] outer, inner-landscape: the list and the reader sit side by side when open, one page each.
+- [manual] tabletop: the playback controls sit on the bottom half.
+```
+
+A story that changes layout is not done until every pose it names has a
+snapshot or a recorded manual check. For `Platform: iphone` (no Duo), use
+`outer` for the iPhone screen and add `iphone-27.0` when a story uses an
+iOS 27.1 API.
 
 ## Milestones
 
