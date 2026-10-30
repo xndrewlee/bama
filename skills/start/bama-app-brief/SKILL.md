@@ -44,10 +44,11 @@ brief, and note "decided by the agent" next to it.
 3. What data does it hold? Name the nouns: tasks, notes, recipes, invoices.
 4. Is there a reference app you like? Then the `bama-clone` skill comes next.
 5. Where does it live: a window with a sidebar, a menu bar item, a
-   quick-capture panel with a global shortcut, or a mix?
+   quick-capture panel with a global shortcut, or a mix? On iPhone: a list
+   and detail, tabs, a widget, a Shortcut, or a mix.
 6. Does it need the internet? Default: no.
 7. Which three things are out of scope for version one?
-8. Should it look like a built-in Mac app, or have its own look? Note a
+8. Should it look like a built-in Mac or iPhone app, or have its own look? Note a
    brand or accent color, and any app they name ("like Things"): the
    `bama-design-from-app` skill rebuilds its look. No answer means native with
    the Mac's own accent color.
@@ -56,7 +57,9 @@ brief, and note "decided by the agent" next to it.
 
 A personal app has one user. Remove what exists only for other users:
 accounts, sharing, teams, sync servers, billing, onboarding, analytics. If
-the user wants data on two Macs, note "later: iCloud sync".
+the user wants data on two Macs, note "later: iCloud sync". On iPhone,
+iCloud, App Groups, and push need the paid Apple Developer Program: note
+"needs paid Apple ID" next to any job that depends on them.
 
 Version one is one afternoon of agent time: one window, two to five main
 pages, one data model with two to four types. Smart lists that filter one
@@ -84,6 +87,8 @@ One sentence: what it is and who it is for.
 
 ## Shape
 <sidebar window / menu bar extra / quick panel>, macOS 26 or later.
+(iPhone: <list and detail / tabs / widget>, iOS 27.0 or later, with the
+iPhone Duo's poses when the platform is iphone-duo.)
 Local data. Works offline. No accounts.
 
 ## System hooks

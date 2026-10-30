@@ -1,6 +1,6 @@
 ---
 name: bama-improve-loop
-description: Autonomous loop that works through docs/STORIES.md one story at a time for a macOS app, building, snapshotting, comparing against reference screenshots, fixing, and committing, until a milestone is done. Use when the user says "keep going", "work through the backlog", "make it match the reference", or wants an unattended improvement loop.
+description: Autonomous loop that works through docs/STORIES.md one story at a time for a Mac or iPhone app, building, snapshotting, comparing against reference screenshots, fixing, and committing, until a milestone is done. Use when the user says "keep going", "work through the backlog", "make it match the reference", or wants an unattended improvement loop.
 argument-hint: "[milestone, e.g. M1]"
 ---
 
@@ -14,6 +14,17 @@ pick story -> plan -> code -> ./build.sh -> snapshot -> compare -> fix -> commit
 
 Stop after the milestone the user named, or after the current milestone if
 they named none. Then report.
+
+For an iPhone app (`Platform: iphone` or `iphone-duo` in `docs/BRIEF.md`),
+swap the skills below: `bama-ios-duo-design` for `bama-mac-design`,
+`bama-ios-integrations` for `bama-os-integrations`,
+`bama-build-and-verify-ios` for `bama-build-and-verify`, and
+`bama-test-ios-app` for `bama-test-mac-app`. Build with `make build-sim`
+instead of `./build.sh`, and snapshot with `make snapshot`. Before a story
+with a screen is done, run the checklist at the end of
+`bama-ios-duo-design`, and the pose snapshots for every pose the story
+names. After the first milestone builds green, call the Skill tool with
+`bama-deploy-to-device` once, if the user has not set it up.
 
 ## 1. Pick
 
