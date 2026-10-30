@@ -287,14 +287,27 @@ Checked on a real iPhone Duo:
   `scenePhase` is not `.active`, and pick the branch from the held value.
   This only shows on a real phone: the simulator did not start Picture in
   Picture from the home button.
-- A feed of full-height videos (`ScrollView` with
-  `.scrollTargetBehavior(.paging)` and `.scrollPosition(id:)`, each page
-  `.containerRelativeFrame(.vertical)`): one player, for the page on screen.
-  When the page changes, close the old page's model so a stream that
-  arrives after the swipe stays off, and cancel its start. `.clipped()` the
-  scroll view, or the next page shows under the home indicator. Stop the
-  feed when the app goes to the background and leave Picture in Picture
-  off there; the full player page keeps it.
+- A feed of full-height videos (`ScrollView`, each page
+  `.containerRelativeFrame(.vertical)`, `.scrollPosition(id:anchor: .top)`):
+  one player, for the page on screen. When the page changes, close the old
+  page's model so a stream that arrives after the swipe stays off, and
+  cancel its start. `.clipped()` the scroll view, or the next page shows
+  under the home indicator. Stop the feed when the app goes to the
+  background and leave Picture in Picture off there; the full player page
+  keeps it.
+- Rotating such a feed left the page 68 pt off on a real phone. Snap with
+  `.scrollTargetBehavior(.viewAligned(limitBehavior: .always))`, not
+  `.paging`: paging snaps to a height of its own, which stopped matching
+  the pages after the rotation. The size and safe area change several
+  times while the rotation runs, and a scroll during it is undone when it
+  ends: after `onGeometryChange` of size and `safeAreaInsets` stops for
+  about 350 ms, `scrollTo` the page once, without animation (animated, it
+  slid in from the page before), and hide the other pages until then.
+  The simulator does not rotate the Duo from a UI test: check on the phone.
+- A list of live items goes stale. When an item turns out to be over (the
+  server's 404), take it out and let the next one take its place, and ask
+  about the next item ahead so it leaves before it is reached. A network
+  failure keeps the item.
 - To see what the player does on the phone, log its steps to a file in
   `URL.temporaryDirectory` and copy it off with `devicectl device copy from`
   (`bama-build-and-verify-ios`). Log `makeUIViewController` and
