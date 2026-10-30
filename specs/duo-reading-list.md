@@ -103,7 +103,7 @@ Screens: reading, finished
 Depends: S-001
 Acceptance:
 - [self] Setting status to finished sets finishedAt; setting it back clears it.
-- [snap] outer: the swipe actions show Start Reading and Finished; the context menu has the same.
+- [ui] outer: swiping a row shows Start Reading and Finished; its context menu has the same.
 - [snap] inner-landscape: the book leaves one list and shows in the other without leaving the page.
 Status: todo
 
