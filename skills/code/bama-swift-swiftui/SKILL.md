@@ -156,6 +156,7 @@ with `bama-ios-integrations`.
 | `Sending 'x' risks causing data races` | Make the type `Sendable`, or keep it on one actor |
 | `The compiler is unable to type-check this expression` | Split the view into smaller subviews or `let` constants |
 | `ambiguous use of 'Task'` | A type in your code is named `Task`; rename it |
+| `'SortOrder' is ambiguous for type lookup` | Foundation has `SortOrder` (and `Predicate`, `Expression`); name yours after the app, like `TaskOrder` |
 
 Fix the first error first. Later errors often come from it.
 

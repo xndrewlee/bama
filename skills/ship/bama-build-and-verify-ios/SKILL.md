@@ -161,6 +161,12 @@ xcrun devicectl device capture screenshot --device <udid> \
 - `APP_OPEN` takes a sidebar page or a screen from `Snapshot.swift`, and
   opens it a second after launch.
 - The phone must be unlocked to launch the app.
+- Read `info displays` again after every pose change and capture the
+  display marked `active`. A capture of the display that is off comes back
+  all black; half open, the info lagged a few seconds behind the fold.
+- An app that talks to a server can also run against the real one here,
+  with no `APP_STORE`: the human pass is where the network shows up (a
+  stream that played in the simulator stalled on the phone's Wi-Fi).
 - For a value the screen does not show, write it to a file in
   `URL.temporaryDirectory`, and copy the file off with
   `xcrun devicectl device copy from --device <udid> --domain-type appDataContainer --domain-identifier <bundle-id> --source tmp/<file> --destination <file>`.

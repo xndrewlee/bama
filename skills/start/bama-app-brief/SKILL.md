@@ -46,7 +46,10 @@ brief, and note "decided by the agent" next to it.
 5. Where does it live: a window with a sidebar, a menu bar item, a
    quick-capture panel with a global shortcut, or a mix? On iPhone: a list
    and detail, tabs, a widget, a Shortcut, or a mix.
-6. Does it need the internet? Default: no.
+6. Does it need the internet? Default: no. If it is a second client for a
+   server the user already runs (a dashboard on a Mac mini), write where
+   the server lives and how the phone reaches it; the scaffold follows
+   `bama-new-ios-app`'s `server.md`.
 7. Which three things are out of scope for version one?
 8. Should it look like a built-in Mac or iPhone app, or have its own look? Note a
    brand or accent color, and any app they name ("like Things"): the

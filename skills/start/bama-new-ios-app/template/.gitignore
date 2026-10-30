@@ -7,3 +7,6 @@ xcuserdata/
 .DS_Store
 .env*
 /shots/
+# Screenshots of a reference app (bama-clone) hold real content.
+docs/screens/*.png
+docs/screens/*.jpg

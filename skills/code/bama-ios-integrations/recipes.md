@@ -11,6 +11,7 @@ build-sim` regenerates the project.
 - [App Intents](#app-intents)
 - [URL scheme](#url-scheme)
 - [Background refresh](#background-refresh)
+- [Video and Picture in Picture](#video-and-picture-in-picture)
 - [Notifications](#notifications)
 - [Camera on iPhone Duo](#camera-on-iphone-duo)
 - [Files and photos](#files-and-photos)
@@ -210,6 +211,104 @@ func scheduleRefresh() async {
 ```
 
 iOS decides when it runs, if at all. Never put work people wait for here.
+
+## Video and Picture in Picture
+
+Audio in the background and Picture in Picture need the `audio` background
+mode. It has no `INFOPLIST_KEY_` build setting, so give it a small plist
+outside the sources folder; Xcode merges the generated keys into it. It
+works with a free Apple ID.
+
+```yaml
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: Support/Info.plist   # holds only UIBackgroundModes: [audio]
+```
+
+```swift
+import AVKit
+
+// In the App's init: plays with the silent switch on and in the background.
+try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
+
+/// The system player: its controls, AirPlay, and Picture in Picture.
+struct PlayerView: UIViewControllerRepresentable {
+    let player: AVPlayer
+
+    func makeUIViewController(context: Context) -> AVPlayerViewController {
+        let controller = AVPlayerViewController()
+        controller.player = player
+        controller.allowsPictureInPicturePlayback = true
+        // Swiping home while it plays starts Picture in Picture.
+        controller.canStartPictureInPictureAutomaticallyFromInline = true
+        controller.delegate = context.coordinator
+        return controller
+    }
+
+    func updateUIViewController(_ controller: AVPlayerViewController, context: Context) {}
+
+    func makeCoordinator() -> FullScreen { FullScreen(player: player) }
+
+    /// Leaving the player's own full screen with its close button pauses it.
+    final class FullScreen: NSObject, AVPlayerViewControllerDelegate {
+        let player: AVPlayer
+        private var wasPlaying = false
+        init(player: AVPlayer) { self.player = player }
+
+        func playerViewController(_ controller: AVPlayerViewController,
+                                  willBeginFullScreenPresentationWithAnimationCoordinator coordinator: any UIViewControllerTransitionCoordinator) {
+            wasPlaying = player.timeControlStatus != .paused
+        }
+
+        func playerViewController(_ controller: AVPlayerViewController,
+                                  willEndFullScreenPresentationWithAnimationCoordinator coordinator: any UIViewControllerTransitionCoordinator) {
+            coordinator.animate(alongsideTransition: nil) { [weak self] context in
+                guard let self, !context.isCancelled, self.wasPlaying else { return }
+                self.player.play()
+            }
+        }
+    }
+}
+```
+
+Checked on a real iPhone Duo:
+
+- A player with video pauses when the phone locks. Set
+  `player.audiovisualBackgroundPlaybackPolicy = .continuesIfPossible` to keep
+  the sound going; the home gesture starts Picture in Picture instead.
+- The player's full screen covers the view that holds it, and SwiftUI calls
+  that view's `onDisappear`. Never stop the player there: stop it in the
+  close button, or let it go with the view's state.
+- An HLS playlist plays as is: `AVPlayerItem(url:)`. When the server sends
+  one playlist per quality and no multivariant playlist, the player cannot
+  adapt, and a high one stalls on Wi-Fi (1080p60 needs 9 Mbps; the phone got
+  4). Build a multivariant playlist from them, best quality under 2 Mbps
+  first, and hand it over with an `AVAssetResourceLoaderDelegate` on a
+  made-up URL scheme. Keep the loader in a property: AVFoundation holds it
+  weakly. A quality menu still offers each one alone.
+
+```swift
+nonisolated final class PlaylistLoader: NSObject, AVAssetResourceLoaderDelegate, Sendable {
+    static let url = URL(string: "app-playlist://live/master.m3u8")!
+    private let playlist: Data
+    init(_ playlist: Data) { self.playlist = playlist }
+
+    func resourceLoader(_ loader: AVAssetResourceLoader,
+                        shouldWaitForLoadingOfRequestedResource request: AVAssetResourceLoadingRequest) -> Bool {
+        guard request.request.url?.scheme == Self.url.scheme else { return false }
+        request.contentInformationRequest?.contentType = "public.m3u-playlist"
+        request.contentInformationRequest?.contentLength = Int64(playlist.count)
+        request.contentInformationRequest?.isByteRangeAccessSupported = false
+        request.dataRequest?.respond(with: playlist)
+        request.finishLoading()
+        return true
+    }
+}
+// let asset = AVURLAsset(url: PlaylistLoader.url)
+// asset.resourceLoader.setDelegate(loader, queue: .main)
+// "#EXT-X-STREAM-INF:BANDWIDTH=<bps>,RESOLUTION=<w>x<h>" then the variant's https URL, per quality
+```
+
+In snapshots and tests, show a drawn frame instead of the player.
 
 ## Notifications
 

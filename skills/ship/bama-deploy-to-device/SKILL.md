@@ -12,9 +12,12 @@ Xcode 27.1, and a free Apple ID, over a cable and over Wi-Fi.
 
 ## 1. Pick the tier
 
-- **Free, any Apple ID:** up to 3 of the person's own devices; profiles
-  expire after 7 days (the agent in step 5 renews them); about 10 new app
-  ids a week; no push, iCloud, App Groups, or Sign in with Apple.
+- **Free, any Apple ID:** up to 3 of the person's own devices, and 3 of
+  their own apps on each; profiles expire after 7 days (the agent in step 5
+  renews them); about 10 new app ids a week; no push, iCloud, App Groups,
+  or Sign in with Apple. With 3 apps on the phone, ask which one goes, then
+  `xcrun devicectl device uninstall app --device <udid> <bundle-id>` (its
+  data goes with it).
 - **Paid Apple Developer Program, $99 a year:** one-year profiles, every
   entitlement, TestFlight, and ad hoc installs.
 

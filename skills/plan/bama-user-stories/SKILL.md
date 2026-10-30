@@ -31,7 +31,7 @@ Status: todo
   `[unit]` unit test, `[self]` self-test, `[ui]` a UI test that taps or
   swipes (iPhone apps, `bama-test-ios-app`), `[manual]` a person must try
   it. "Works well" is not checkable. A snapshot cannot open a swipe action
-  or a context menu: those are `[ui]` or `[manual]`.
+  a context menu, or a toolbar menu: those are `[ui]` or `[manual]`.
 - `Screens:` links reference screenshots, so `bama-improve-loop` knows what to
   compare. Without a reference app, name the snapshot pages that will show
   the story. A panel, sheet, or menu needs its own snapshot page.

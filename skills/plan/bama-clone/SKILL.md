@@ -113,6 +113,14 @@ button and volume up) and ask the user to AirDrop them.
   corrected 3 answers from the docs.
 - Note any change in the user's data during the walk, even if you are not
   sure you caused it, and tell them.
+- When the user wants a native design, not a copy of the layout, the walk
+  is for features and words: one shot per page and its main states, at
+  desktop width only. Read the source when you can (over SSH for a server
+  on another Mac): its API calls and types are the data model.
+- Turn on the app's own filters before shots of private or adult content,
+  and say so in the index.
+- The built-in browser plays no H.264: a video page that stays on
+  "connecting" may be fine. Ask the API with `curl` before calling it broken.
 
 ## 5. Write docs/screens/INDEX.md
 

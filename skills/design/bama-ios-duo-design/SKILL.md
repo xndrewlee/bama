@@ -74,6 +74,10 @@ checked in with the words in the first column.
   bar. Read the side with `@Environment(\.toolbarVerticalEdge)`; turn it
   off with `.toolbarVerticalBehavior(.disabled)` only when a bar must stay
   horizontal.
+- **Search.** On the closed Duo, `.searchable` in its default placement
+  showed no field at all. When search is one of the page's jobs, use
+  `.searchable(text:placement: .navigationBarDrawer(displayMode: .always))`:
+  the field stays under the title in every pose.
 - **Sheets.** One task per sheet: Cancel leading, Done or Save trailing,
   medium and large detents. On the outer display a sheet keeps its bar on
   top, and a long form scrolls Cancel and Save away with it: put the fields

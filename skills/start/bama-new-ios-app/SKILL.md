@@ -98,6 +98,8 @@ An XcodeGen spec for one iPhone app target, plus a Makefile that wraps
 7. If `docs/BRIEF.md` exists, rename `Item` to the brief's main type and the
    sidebar pages to the brief's pages. Nothing else: features go through
    `bama-improve-loop`, one story at a time. Build, snapshot, commit.
+   When the brief says the data lives on a server the user runs, replace
+   SwiftData with a server client and fixtures first: [server.md](server.md).
 
 ## How snapshots work on iPhone
 
