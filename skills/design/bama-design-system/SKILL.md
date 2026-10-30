@@ -1,6 +1,6 @@
 ---
 name: bama-design-system
-description: Accent color and design system for a macOS app, from the app's accent and the accent picker in Settings to Swift tokens in code plus a design/DESIGN-SYSTEM.md that says which token to use when. Use when the user wants a brand or accent color, wants people to pick a color, when an app has more than a few screens, when screens drift apart or animations feel inconsistent, or when the user asks for themes, a style guide, or design tokens.
+description: Accent color and design system for a Mac or iPhone app, from the app's accent and the accent picker in Settings to Swift tokens in code plus a design/DESIGN-SYSTEM.md that says which token to use when. Use when the user wants a brand or accent color, wants people to pick a color, when an app has more than a few screens, when screens drift apart or animations feel inconsistent, or when the user asks for themes, a style guide, or design tokens.
 ---
 
 # Design system
@@ -126,6 +126,20 @@ better, never worse.
 Add one line to the app's `CLAUDE.md` (create the file if it is missing):
 "Design rules: `design/DESIGN-SYSTEM.md`. Use its tokens; never raw colors,
 radii, or durations."
+
+## On iPhone
+
+The `bama-new-ios-app` template has the same `Theme.swift`, `Palette`, and
+accent picker, with these differences:
+
+- iOS has no accent setting of its own. "System" shows iOS blue, or the
+  brand color when `ThemeStore.brand` is set.
+- The picker sits in Settings > Appearance as 44 pt swatches: a touch
+  target, not a 16 pt dot.
+- Drop hover tokens (`hover` motion, `.hoverFill`). Pressed states carry
+  that feedback.
+- Corners near a screen edge follow the screen: `ConcentricRectangle`
+  (`bama-ios-duo-design`), not a fixed radius token.
 
 Done when this finds no hits outside the token files:
 

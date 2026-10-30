@@ -106,6 +106,15 @@ company: its name, logo, illustrations, and any font or icon it owns.
 Keep the structure, the spacing, and the feel. Write the replacements in
 `design/KIT.md`.
 
+## On iPhone
+
+Measure screenshots of an iPhone app the same way. Take them through
+iPhone Mirroring or the phone itself (`bama-clone`). An iPhone screenshot
+is at 3x: pass `--scale 3` to `measure.swift`. Measure the content between the
+status bar and the home indicator, and compare against a snapshot of the
+same screen size (`make snapshot` for the outer display, or
+`APP_SIZE=<w>x<h>` for another size).
+
 Done when `design/KIT.md` has a measured number for every token and part,
 the kit's gallery shows every part, the reference screen passes step 6,
 and step 7 lists what was replaced.

@@ -1,6 +1,6 @@
 ---
 name: bama-ux-design
-description: UX pass for one feature of a macOS app, covering names, flow, where it opens (inline, popover, sheet, window, alert), states, words, hover help, accessibility, and AI features. Use before coding a story that adds a screen, an action, or text, when bama-user-stories or bama-improve-loop call it, or when the user asks for a UX review, clearer wording, better names, or whether something should be a modal.
+description: UX pass for one feature of a Mac or iPhone app, covering names, flow, where it opens (inline, popover, sheet, window, alert), states, words, hover help, accessibility, and AI features. Use before coding a story that adds a screen, an action, or text, when bama-user-stories or bama-improve-loop call it, or when the user asks for a UX review, clearer wording, better names, or whether something should be a modal.
 argument-hint: "[story ID or screen]"
 ---
 
@@ -85,6 +85,25 @@ Go down this list and use the first one that fits. Lighter is better.
 - Information that needs no action goes inline, never in an alert.
 
 Details and SwiftUI code for each surface: [presentation.md](presentation.md).
+
+On iPhone (`Platform: iphone` or `iphone-duo` in `docs/BRIEF.md`), use this
+list instead. There are no windows, panels, or hover.
+
+| The feature | Use |
+| --- | --- |
+| Changes one value on something already on screen | Inline (field, toggle, menu in the row) |
+| Shows details of the selection | Push in the navigation stack, or the detail column when open |
+| A few related choices tied to one control | `Menu`, or a popover on the inner display |
+| One short task that must finish or cancel before going on | Sheet, with medium and large detents |
+| A task that needs the whole screen: a camera, a reader, an editor | `.fullScreenCover` |
+| A place people come back to, like a list or a collection | A column in the split view, or a tab |
+| A rare action that destroys data and cannot be undone | `.confirmationDialog` |
+| A problem people must act on right now | Alert |
+
+Sheets on the iPhone Duo get vertical buttons on the outer display and
+center on the inner one (`bama-ios-duo-design`). Instead of hover help,
+icon-only buttons get an `.accessibilityLabel`, and their actions are also
+in the row's context menu. Swipe actions repeat context menu actions.
 
 Check: the `UX:` block names the surface and the table row that picked it.
 

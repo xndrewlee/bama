@@ -1,6 +1,6 @@
 ---
 name: bama-layout-grid
-description: Grid and alignment rules for a macOS SwiftUI app, with three checks that catch misalignment (a lint for off-grid numbers, a layout probe that measures real frames in snapshot mode, and a grid overlay). Use when building or reviewing a custom page, card, row, form, or sheet, after every build that touched layout, or when the user says something looks misaligned, crooked, cramped, or unevenly spaced.
+description: Grid and alignment rules for a Mac or iPhone SwiftUI app, with three checks that catch misalignment (a lint for off-grid numbers, a layout probe that measures real frames in snapshot mode, and a grid overlay). Use when building or reviewing a custom page, card, row, form, or sheet, after every build that touched layout, or when the user says something looks misaligned, crooked, cramped, or unevenly spaced.
 ---
 
 # Layout grid
@@ -115,6 +115,19 @@ each probe in pink with its name. Open them with the Read tool.
 | inside its 20 pt inset | a missing margin, or a fixed width wider than the parent | `.padding(Space.margin)`, `maxWidth` instead of `width` |
 | overlap | `.offset`, `.position`, or a fixed height | remove it, let the stack size the view |
 | x between pixels | a fractional number | a whole number from `Space` |
+
+## On iPhone
+
+The `bama-new-ios-app` template ships the same `Grid.swift`, `grid-lint.sh`,
+and `check-layout.swift`. `make check` runs both checks on the layout files
+from `make snapshot` and from the pose snapshots. Differences:
+
+- Page margins come from the safe area plus the grid, side by side: pad
+  each side from its own inset, never a fixed 20 pt on both
+  (`bama-ios-duo-design`, "Safe areas").
+- The probes measure in the app's window, so each pose gets its own layout
+  file. A probe that passes closed can fail open: check every pose.
+- Touch targets are 44 pt, a multiple of 4.
 
 Done when `tools/grid-lint.sh` passes, `tools/check-layout.swift` passes
 on the layout files of every page you touched, and every custom page and

@@ -1,6 +1,6 @@
 ---
 name: bama-app-icon
-description: Liquid Glass macOS app icon made as an Icon Composer file (Icon/AppIcon.icon, JSON plus SVG layers), compiled with actool, and reviewed in every look with ictool. Use when the user wants an app icon, a better icon, or a Dock icon.
+description: Liquid Glass app icon for a Mac or iPhone app, made as an Icon Composer file (Icon/AppIcon.icon, JSON plus SVG layers), compiled with actool, and reviewed in every look with ictool. Use when the user wants an app icon, a better icon, or a Dock or Home Screen icon.
 allowed-tools: Bash(tools/make_icon.sh) Bash(tools/icon_review.sh) Bash(./build.sh *) Read Edit Write
 ---
 
@@ -143,6 +143,21 @@ after they save.
 - The icon needs `CFBundleIconName` = `AppIcon` in `Info.plist` and
   `Assets.car` in `Contents/Resources`. `AppIcon.icns` covers older Finder
   views and macOS 15.
+
+## On iPhone
+
+The `bama-new-ios-app` template wires the same `Icon/AppIcon.icon` into
+Xcode, which compiles it on every build. There is no `make_icon.sh` step.
+
+- `project.yml` lists `Icon/AppIcon.icon` as a source; XcodeGen adds it as
+  one resource (`wrapper.icon`). `ASSETCATALOG_COMPILER_APPICON_NAME` is
+  `AppIcon`, the `.icon`'s name.
+- `icon.json` says `"supported-platforms" : { "squares" : "shared" }` for
+  iPhone, not `[ "macOS" ]`.
+- Check after `make build-sim`: `xcrun assetutil --info
+  ~/Library/Developer/<App>/build/Build/Products/Debug-iphonesimulator/<App>.app/Assets.car`
+  lists `AppIcon` image groups, and a screenshot of the simulator's Home
+  Screen shows the icon.
 
 Done when `tools/make_icon.sh` succeeds, the contact sheet shows a clear
 glyph in all four looks and at 16 pt, the icon uses no SF Symbol, and the

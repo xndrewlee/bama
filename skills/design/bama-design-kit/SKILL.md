@@ -1,6 +1,6 @@
 ---
 name: bama-design-kit
-description: Custom design system for a macOS SwiftUI app with its own parts, not Apple's, covering three token layers, type, an icon set, every part in every state, custom window chrome, a parts gallery, and checks. Use when the user wants the app to have its own look and feel, a brand, or custom buttons, rows, and sidebars, when bama-design-from-app has measured a reference app, or when the user asks for a design system or component library.
+description: Custom design system for a Mac or iPhone SwiftUI app with its own parts, not Apple's, covering three token layers, type, an icon set, every part in every state, custom window chrome, a parts gallery, and checks. Use when the user wants the app to have its own look and feel, a brand, or custom buttons, rows, and sidebars, when bama-design-from-app has measured a reference app, or when the user asks for a design system or component library.
 ---
 
 # Design kit
@@ -121,6 +121,19 @@ grep -rnE 'Color\(hex|Color\(red|\.font\(\.system|systemName:' Sources/ | grep -
 
 Both come back clean. Then build, snapshot, and run the `bama-layout-grid`
 checks on the screens (`bama-build-and-verify` skill).
+
+## On iPhone
+
+The same three token layers and parts gallery work on iPhone, with these
+changes:
+
+- States: rest, pressed, selected, focused, disabled. There is no hover.
+- No custom window chrome. Navigation bars, tab bars, and sheets stay
+  system; custom parts live inside the content.
+- Every part fits a 44 pt touch target and survives the largest Dynamic
+  Type size.
+- The parts gallery is a page in snapshot mode, so `make snapshot` shows it
+  in light and dark, and the pose snapshots show it at every size.
 
 Done when `design/KIT.md` covers every part, every part is a real control
 with every state, the gallery shows them all in light and dark, and the
