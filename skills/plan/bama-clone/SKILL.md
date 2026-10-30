@@ -50,7 +50,12 @@ screen at full resolution with the script in this skill:
 
 It captures the app's largest window. For menus and popovers outside the
 window, use `screencapture -x docs/screens/<name>.png` and note it in the
-index. In a browser, use the tool's screenshot with a file path.
+index. In a browser, use the tool's screenshot with a file path. The
+built-in browser's screenshot takes no path: it saves each one as a JPG,
+800 px wide, under the session's `tool-results/` folder, and the result
+names the file (`[Image: source: ...]`). Copy that file to
+`docs/screens/NN-name.jpg`. Wait a second after a click before the
+screenshot, or it can show the page from before the click.
 
 ## 4. Walk the app in this order
 
@@ -68,6 +73,16 @@ index. In a browser, use the tool's screenshot with a file path.
 
 Name files `NN-page-or-state.png` in capture order. The walk is
 exhaustive when every sidebar item, menu, and settings pane has a file.
+
+### A web app for an iPhone app
+
+Walk it once at desktop width, then again at the iPhone Duo's sizes with
+the browser's viewport (the built-in browser's `resize_window`): 466 x 678
+(`outer`), 951 x 669 (`inner-landscape`), and 669 x 951 (`inner`). A
+responsive web app shows a different layout at each, and each layout maps
+to a pose. Add the pose to the file name (`26-list-outer.jpg`). The same
+pages in another width need only the main page, a detail, and anything
+full screen.
 
 ### iPhone apps
 
@@ -123,12 +138,16 @@ End with three lists:
 
 Describe structure and behavior. Take no text, logo, or icon from the app:
 rebuilding for personal use is fine, copying a brand is not. Keep the PNGs
-out of public repos (add `docs/screens/*.png` to `.gitignore`).
+out of public repos (add `docs/screens/*.png` and `docs/screens/*.jpg` to
+`.gitignore`). Pages that differ only by a filter (one per tag) may share
+one section that names every file.
 
-## 6. Turn it into stories
+## 6. Turn it into a brief and stories
 
-Call the Skill tool with `bama-user-stories`. Every screen in the index ends up
-linked from at least one story, or listed under `## Dropped`.
+Call the Skill tool with `bama-app-brief`. It reads the index, skips the
+questions it answers, and hands off to `bama-user-stories`. Every screen in
+the index ends up linked from at least one story, or listed under
+`## Dropped`.
 
-Done when INDEX.md has a section per PNG, the three maps exist, and
+Done when INDEX.md covers every screenshot, the three maps exist, and
 `docs/STORIES.md` covers every screen.
