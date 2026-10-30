@@ -1,7 +1,8 @@
 # Specs
 
-Build plans for small Mac apps you can build today with BAMA. Each spec is
-one app. Give it to your agent and it builds the app for you.
+Build plans for small apps you can build today with BAMA: twelve Mac apps
+and one iPhone Duo app. Each spec is one app. Give it to your agent and it
+builds the app for you.
 
 I took these apart from Onyx, my own menu bar app that replaces Magnet,
 AltTab, Alfred, CleanShot, and a few more. Onyx does everything in one app.
@@ -21,8 +22,8 @@ A link works too:
 `https://github.com/daveebbelaar/bama/blob/main/specs/window-snapper.md`.
 
 The agent copies the spec's **Brief** into `docs/BRIEF.md` and its
-**Stories** into `docs/STORIES.md`, then runs `bama-new-mac-app` and
-`bama-improve-loop`. Change the name, the shortcuts, or the scope first if you
+**Stories** into `docs/STORIES.md`, then runs `bama-new-mac-app` (or
+`bama-new-ios-app` for an iPhone spec) and `bama-improve-loop`. Change the name, the shortcuts, or the scope first if you
 want. A spec is a starting point, not a contract.
 
 ## The specs
@@ -41,10 +42,12 @@ want. A spec is a starting point, not a contract.
 | [toolbox.md](toolbox.md) | Keep the Mac awake, show hidden files, switch audio devices | Amphetamine, TinkerTool |
 | [creator-tools.md](creator-tools.md) | Keystroke overlay, cursor highlight, teleprompter, chapter markers | KeyCastr, Presentify |
 | [dev-toolkit.md](dev-toolkit.md) | Open projects, transform text (JSON, Base64, JWT), free a port | DevUtils, Raycast scripts |
+| [duo-reading-list.md](duo-reading-list.md) | iPhone Duo: books, notes, and a reading timer, in every pose | Goodreads as a private list |
 
 Start with the window snapper. It's the smallest, and it teaches the two
 things most of these apps need: a global shortcut and the Accessibility
-permission.
+permission. For iPhone, the reading list is the one: it uses every iPhone
+Duo pose and ends on your own phone.
 
 ## What a spec holds
 
@@ -52,8 +55,8 @@ Every spec has the same parts, in this order:
 
 1. **Brief**: the `bama-app-brief` format, filled in. The agent skips the
    interview.
-2. **How it works**: the macOS APIs, the permission each one needs, and the
-   main types.
+2. **How it works**: the macOS or iOS APIs, the permission each one needs
+   (or, on iPhone, whether a free Apple ID can sign it), and the main types.
 3. **Stories**: the `bama-user-stories` format, in milestones. Every acceptance
    line says how to check it.
 4. **Gotchas**: what went wrong in Onyx, so your agent gets it right the
