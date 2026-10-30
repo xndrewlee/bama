@@ -37,7 +37,7 @@ An XcodeGen spec for one iPhone app target, plus a Makefile that wraps
     UI/AppearanceSettings.swift  Settings: accent picker
     UI/Grid.swift        the 4 pt spacing scale, layout probes, grid overlay
     UI/Fold.swift        readsFold, FoldSplit, measuresWindow: where the iPhone Duo folds, for splits
-    UI/TwoPages.swift    two pages that meet at the fold (bama-ios-duo-design, "Two pages")
+    UI/TwoPages.swift    two pages: one screen when flat, meeting at the fold once it folds
   tools/
     env.sh               Xcode toolchain, paths, simulator lookup (creates a missing one)
     build.sh run.sh snap.sh selftest.sh   what the Makefile calls

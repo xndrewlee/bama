@@ -63,24 +63,28 @@ private var listWidth: CGFloat {
 }
 ```
 
-Flat or half folded, the list gets the same width, so nothing jumps as the
-Duo folds. Flat, a real Duo floats the list over the detail; half folded,
-it tiles them.
+Flat, a real Duo floats the list over the detail; half folded, it tiles
+them on the fold.
 
 ## Two pages
 
+Half folded, the pages meet at the fold. Flat, the Duo is one screen:
+the leading page takes `flatShare` of it, so a player can be larger than
+its chat (`TwoPages(flatShare: 2 / 3) { player } trailing: { chat }`).
+
 ```swift
 struct TwoPages<Leading: View, Trailing: View>: View {
+    var flatShare: CGFloat = 0.5
     @ViewBuilder var leading: Leading
     @ViewBuilder var trailing: Trailing
-    @Environment(\.windowSize) private var window
     @State private var frame: CGRect = .zero
     @State private var fold: CGRect?
 
     var body: some View {
-        let split = FoldSplit(fold: fold, frame: frame, window: window)
-        HStack(spacing: split.gap) {
-            leading.frame(width: max(0, split.x - split.gap / 2))
+        // A fold that runs top to bottom: held like a book, half folded.
+        let book = fold.flatMap { $0.height > $0.width ? $0 : nil }
+        HStack(spacing: book?.width ?? 0) {
+            leading.frame(width: max(0, book?.minX ?? frame.width * flatShare))
             trailing.frame(maxWidth: .infinity)
         }
         .readsFold(frame: $frame, fold: $fold)
@@ -111,6 +115,32 @@ TwoPages {
 
 Check it with layout probes: `.gridArea("left-page")` on each page writes its
 frame to the snapshot's layout file, so you can see where the pages meet.
+
+## A grid across the fold
+
+Flat, a row of four cards runs evenly across the screen. Half folded like
+a book, two sit on each page. The right page is 84 pt narrower (the system
+column), so both pages take the narrower width and the rest goes to the
+fold. Split by page widths alone and the right page's cards come out a
+fifth smaller.
+
+```swift
+// In the grid, with readsFold(frame:fold:) on the LazyVStack:
+private var foldedPage: CGFloat? {
+    guard let fold, fold.height > fold.width else { return nil }   // flat: nil
+    return max(0, min(fold.minX, frame.width - fold.maxX))
+}
+
+if let page = foldedPage {
+    HStack(spacing: 0) {
+        cards(row.prefix(2)).padding(.leading, 20).padding(.trailing, 16).frame(width: page)
+        Spacer(minLength: 0)
+        cards(row.dropFirst(2)).padding(.leading, 16).padding(.trailing, 20).frame(width: page)
+    }
+} else {
+    cards(row).padding(.horizontal, 20)   // four across, or two when narrow
+}
+```
 
 ## Tabs to sidebar
 

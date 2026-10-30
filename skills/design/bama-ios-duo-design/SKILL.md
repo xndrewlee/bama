@@ -104,21 +104,27 @@ let split = FoldSplit(fold: fold, frame: frame, window: window)
 // split.gap: the band to keep clear, 0 when flat
 ```
 
-Flat, split at the window's middle, not the view's: a sidebar, a toolbar,
-or the 84 pt system column pushes the view off center. Measure the window
-inside `.ignoresSafeArea()`. Outside it, a flat Duo's window measures
-867 x 635, and its middle misses the fold by 42 pt.
+Flat, the Duo is one wide screen, and people expect it to look like one:
+a grid runs evenly across it, and a player takes more room than its chat.
+Split into halves only when the fold region appears, as the Duo starts to
+fold. The template's `TwoPages` does both: `flatShare` sets the leading
+page's width while there is no fold. A split that must sit where a flat Duo
+folds measures from the window's middle, not the view's: a sidebar, a
+toolbar, or the 84 pt system column pushes the view off center. Measure
+the window inside `.ignoresSafeArea()`. Outside it, a flat Duo's window
+measures 867 x 635, and its middle misses the fold by 42 pt.
 
 1. **Keep fixed things off it.** Controls, titles, and faces in photos
    never sit on the fold band. Scrolling content may pass over it; never
    move scrolling content to dodge it.
-2. **Split on it.** Two equal columns meet at the fold. A grid uses an even
-   number of columns, with extra space at the fold. A screen built around
-   one centered group (a timer, a player) puts that group on the fold: on a
-   regular width give each half one part, left and right when the screen is
-   wide, top and bottom when it is tall. Split on the fold's frame when there
-   is one and on the window's middle when the Duo lies flat, so nothing
-   jumps as it folds.
+2. **Split on it once it folds.** Half folded, two equal columns meet at
+   the fold. A grid uses an even number of columns, with extra space at the
+   fold. Held like a book, the 84 pt system column makes the right page
+   narrower: give both pages the narrower width and put the rest at the
+   fold, or the right page's cards come out smaller. A screen built around
+   one centered group (a timer, a player) gives each half one part, left
+   and right when held like a book, top and bottom on a table. Flat, there
+   is no fold to meet: lay the screen out as one.
 3. **Move a little.** A custom control near the middle shifts to one side,
    alone or with its group. The rest of the screen stays put.
 4. **Let the system move its own parts.** Sheets, alerts, menus, and

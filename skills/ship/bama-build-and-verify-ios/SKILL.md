@@ -182,8 +182,9 @@ Where the phone differs from the simulator:
 - `tabletop` is the inner display in portrait. `tent` is the outer display
   in landscape, 678 x 466.
 
-Measure a split from the screenshot: the gap between two pages should be
-centered on 475.5 pt.
+Half folded, measure a split from the screenshot: the gap between two
+pages should hold 475.5 pt, and a grid's cards should match on both pages.
+Flat, the screen is one: check that nothing splits it in half.
 
 ## 6. Report
 
