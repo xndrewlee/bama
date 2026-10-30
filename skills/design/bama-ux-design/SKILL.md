@@ -100,8 +100,9 @@ list instead. There are no windows, panels, or hover.
 | A rare action that destroys data and cannot be undone | `.confirmationDialog` |
 | A problem people must act on right now | Alert |
 
-Sheets on the iPhone Duo get vertical buttons on the outer display and
-center on the inner one (`bama-ios-duo-design`). Instead of hover help,
+Sheets on the iPhone Duo keep their bar on top on the outer display, where
+a long form scrolls Cancel and Save away, and center on the inner one
+(`bama-ios-duo-design`). Instead of hover help,
 icon-only buttons get an `.accessibilityLabel`, and their actions are also
 in the row's context menu. Swipe actions repeat context menu actions.
 

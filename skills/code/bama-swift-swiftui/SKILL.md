@@ -152,7 +152,7 @@ with `bama-ios-integrations`.
 | --- | --- |
 | `cannot find 'X' in scope` right after adding a file | `swift package clean --scratch-path ~/Library/Developer/<AppName>/build`; in an iPhone app, `make generate`, then build |
 | `'X' is only available in iOS 27.1 or newer` | Put it behind `if #available(iOS 27.1, *)` with a 27.0 fallback |
-| `Main actor-isolated ... from a nonisolated context` | Make the caller main-actor, or `await` the call |
+| `Main actor-isolated ... from a nonisolated context` | Make the caller main-actor, or `await` the call. Inside a `@Model` (its members are nonisolated), mark the small value type it uses `nonisolated enum` |
 | `Sending 'x' risks causing data races` | Make the type `Sendable`, or keep it on one actor |
 | `The compiler is unable to type-check this expression` | Split the view into smaller subviews or `let` constants |
 | `ambiguous use of 'Task'` | A type in your code is named `Task`; rename it |

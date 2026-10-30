@@ -129,6 +129,9 @@ a phone not unlocked since it restarted.
 - `build or signing failed`: read the first error. An expired Xcode sign-in
   or the free tier's limit of new app ids shows up here; reuse an existing
   bundle id rather than making new ones.
+- `No Accounts`: this Mac's Xcode has no Apple ID. The person signs in at
+  Xcode > Settings > Apple Accounts, then quits Xcode: `xcodebuild` saw the
+  account only after Xcode quit. One Apple ID works on several Macs at once.
 - `WARNING the profile was not renewed`: run `tools/deploy.sh --renew`, and
   check the Xcode sign-in.
 - `DVTDevice: Unable to parse valid-ish build string`: harmless. Xcode

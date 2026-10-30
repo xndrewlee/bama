@@ -135,8 +135,20 @@ prints one line per test; the full log is in `/tmp/<App>-uitest.log`.
 - A failure shows only "failed" in the log. Read the reason from the result
   bundle the log names:
   `xcrun xcresulttool get test-results tests --path <bundle>.xcresult`.
-- To see what the test sees, print `app.debugDescription` and read it in
-  `/tmp/<App>-uitest.log`.
+- To see what the test sees, put the tree in an assertion,
+  `XCTAssertTrue(field.exists, app.debugDescription)`, and read it with
+  `xcresulttool`: a `print` in a UI test does not reach the log. For
+  pictures, add `XCTAttachment(screenshot: app.screenshot())` with
+  `lifetime = .keepAlways`, then `xcrun xcresulttool export attachments
+  --path <bundle>.xcresult --output-path <dir>`.
+- A `Form` builds rows as they scroll in: scroll until a field exists. A
+  multi-line `TextField` is a text field to one query and a text view to
+  another: find it with `app.descendants(matching: .any)` and an
+  identifier no label shares (a section header's label counts as one).
+- On the closed Duo the keyboard covers the middle of the screen, where
+  `swipeUp()` starts: type a Return to hide it first. A sheet's bar
+  buttons are `Other`, not `Button`, to XCTest: find Save by its
+  identifier. A long form scrolls Cancel and Save away: swipe back down.
 - `-quiet` hides the results: read them from the log, as the script does.
   The lines about `invalidDigitCount` come from Xcode 27.1 and are harmless,
   and so is `unable to find utility "simctl"` after a failure while

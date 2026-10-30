@@ -216,9 +216,13 @@ iOS decides when it runs, if at all. Never put work people wait for here.
 ```swift
 import UserNotifications
 
-func remind(_ title: String, in seconds: TimeInterval) async throws {
+/// Fires at `date`. Count the seconds after the permission prompt returns:
+/// the first time, the person may take a while to answer it.
+func remind(_ title: String, at date: Date) async throws {
     let center = UNUserNotificationCenter.current()
     guard try await center.requestAuthorization(options: [.alert, .sound, .badge]) else { return }
+    let seconds = date.timeIntervalSinceNow
+    guard seconds > 0 else { return }
     let content = UNMutableNotificationContent()
     content.title = title
     let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)

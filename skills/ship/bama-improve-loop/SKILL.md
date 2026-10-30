@@ -20,7 +20,8 @@ swap the skills below: `bama-ios-duo-design` for `bama-mac-design`,
 `bama-ios-integrations` for `bama-os-integrations`,
 `bama-build-and-verify-ios` for `bama-build-and-verify`, and
 `bama-test-ios-app` for `bama-test-mac-app`. Build with `make build-sim`
-instead of `./build.sh`, and snapshot with `make snapshot`. Before a story
+instead of `./build.sh`, snapshot with `make snapshot`, and open the new
+build with `make run-sim` instead of `./build.sh --open`. Before a story
 with a screen is done, run the checklist at the end of
 `bama-ios-duo-design`, and the pose snapshots for every pose the story
 names. After the first milestone builds green, call the Skill tool with

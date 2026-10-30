@@ -75,9 +75,10 @@ checked in with the words in the first column.
   off with `.toolbarVerticalBehavior(.disabled)` only when a bar must stay
   horizontal.
 - **Sheets.** One task per sheet: Cancel leading, Done or Save trailing,
-  medium and large detents. On the outer display their buttons go
-  vertical; on the inner display they center with horizontal bars; half
-  folded, the system slides them off the fold. `.presentationPlacement(.leading)`
+  medium and large detents. On the outer display a sheet keeps its bar on
+  top, and a long form scrolls Cancel and Save away with it: put the fields
+  people fill first at the top, and keep the form short. On the inner
+  display sheets center; half folded, the system slides them off the fold. `.presentationPlacement(.leading)`
   puts a sheet beside the content instead of over it.
 
 ## 4. The fold
@@ -171,7 +172,8 @@ are in [patterns.md](patterns.md).
 - Text styles only. Labels wrap; stacks turn vertical at accessibility
   sizes; nothing people need is cut off. Check the largest size once per
   milestone: `xcrun simctl ui booted content_size accessibility-extra-extra-extra-large`.
-- Every swipe action is also in the context menu, destructive last. Undo
+- Every swipe action is also in the context menu, destructive last among
+  the app's items (iOS 27 adds Ask Siri after them). Undo
   for every delete.
 - With a hardware keyboard: Command-N, Command-F, Delete, Command-Z, and
   arrow keys that move the selection.
