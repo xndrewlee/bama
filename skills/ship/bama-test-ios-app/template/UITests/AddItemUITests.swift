@@ -10,9 +10,9 @@ final class AddItemUITests: XCTestCase {
         app.launchEnvironment["APP_STORE"] = "/tmp/__APP_NAME__-uitest-\(UUID().uuidString).store"
         app.launch()
 
-        // On a compact width the sidebar comes first. Open the list.
-        let allItems = app.buttons["All Items"]
-        if allItems.waitForExistence(timeout: 5) { allItems.tap() }
+        // A compact width opens on the selected page's list. To open another
+        // page, tap app.buttons["BackButton"] first, then the page.
+        XCTAssertTrue(app.navigationBars["All Items"].waitForExistence(timeout: 5))
 
         app.buttons["New Item"].firstMatch.tap()
         XCTAssertTrue(app.staticTexts["New Item"].firstMatch.waitForExistence(timeout: 5))

@@ -124,11 +124,23 @@ prints one line per test; the full log is in `/tmp/<App>-uitest.log`.
 
 - Each test sets `app.launchEnvironment["APP_STORE"]` to a new file in
   `/tmp`, so it starts empty and never touches real data.
-- A closed Duo starts on the sidebar: tap into the page first.
-- Find elements by their label or an `.accessibilityIdentifier`, never by
-  position. A layout that moves with the pose must still find them.
+- A compact width (the closed Duo) opens on the selected sidebar page's
+  list, not on the sidebar. To reach another page, tap `BackButton`, then
+  the page.
+- Find elements by an `.accessibilityIdentifier`, never by position. A row
+  with a title and a subtitle is one element whose label joins both
+  ("Piranesi, Susanna Clarke"): give it an identifier and query
+  `app.buttons["<identifier>"]`. A layout that moves with the pose must
+  still find it.
+- A failure shows only "failed" in the log. Read the reason from the result
+  bundle the log names:
+  `xcrun xcresulttool get test-results tests --path <bundle>.xcresult`.
+- To see what the test sees, print `app.debugDescription` and read it in
+  `/tmp/<App>-uitest.log`.
 - `-quiet` hides the results: read them from the log, as the script does.
-  The lines about `invalidDigitCount` come from Xcode 27.1 and are harmless.
+  The lines about `invalidDigitCount` come from Xcode 27.1 and are harmless,
+  and so is `unable to find utility "simctl"` after a failure while
+  `xcode-select` points at the Command Line Tools.
 
 ## 5. Things only a person can check
 
