@@ -139,6 +139,17 @@ prints one line per test; the full log is in `/tmp/<App>-uitest.log`.
 - A failure shows only "failed" in the log. Read the reason from the result
   bundle the log names:
   `xcrun xcresulttool get test-results tests --path <bundle>.xcresult`.
+  To see which step failed, list the steps:
+  `xcrun xcresulttool get test-results activities --test-id "<App>UITests/<test>()" --path <bundle>.xcresult`.
+- A test that fails once on one device, such as a long press that opens
+  no menu while both simulators run, can be load. Rerun only it before
+  you change code:
+  `xcodebuild test ... -only-testing:<App>UITests/<Class>/<test>`.
+- To send the app to the background, open another app,
+  `XCUIApplication(bundleIdentifier: "com.apple.Preferences").activate()`,
+  wait with `app.wait(for: .runningBackgroundSuspended, timeout: 10)`,
+  then `app.activate()`. `XCUIDevice.shared.press(.home)` leaves the app in
+  the foreground on the iPhone Duo simulator.
 - To see what the test sees, put the tree in an assertion,
   `XCTAssertTrue(field.exists, app.debugDescription)`, and read it with
   `xcresulttool`: a `print` in a UI test does not reach the log. For

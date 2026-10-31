@@ -13,6 +13,7 @@ build-sim` regenerates the project.
 - [Background refresh](#background-refresh)
 - [Video and Picture in Picture](#video-and-picture-in-picture)
 - [Notifications](#notifications)
+- [App lock with Face ID](#app-lock-with-face-id)
 - [Camera on iPhone Duo](#camera-on-iphone-duo)
 - [Files and photos](#files-and-photos)
 - [Spotlight](#spotlight)
@@ -362,6 +363,80 @@ func remind(_ title: String, at date: Date) async throws {
     try await center.add(UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger))
 }
 ```
+
+## App lock with Face ID
+
+`INFOPLIST_KEY_NSFaceIDUsageDescription` in `project.yml`, or the first
+check crashes. Ask with `.deviceOwnerAuthentication`, not the biometrics
+policy: it falls back to the passcode, so a face that fails or a refused
+Face ID permission still opens the app. Make a new `LAContext` for every
+check; a used one can pass again without asking.
+
+```swift
+import LocalAuthentication
+
+func authenticate(_ reason: String) async -> Bool {
+    let context = LAContext()
+    return (try? await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)) ?? false
+}
+
+/// nil: the iPhone has no passcode. Then open the app instead of locking,
+/// or a person who removes the passcode is locked out of their own app.
+var hasFaceID: Bool? {
+    let context = LAContext()
+    guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) else { return nil }
+    return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+        && context.biometryType == .faceID
+}
+```
+
+The rules, kept apart from LocalAuthentication so a unit test can run them:
+
+- Lock on `.background`, never on `.inactive`. Control Center, the
+  notification shade, and the Face ID sheet itself make the scene inactive.
+- Ask by itself once per launch or return. The Face ID sheet makes the
+  scene inactive and then active again, so asking on every `.active` asks
+  forever after a cancel. After a cancel, wait for an unlock button.
+- A delay ("after 1 minute") lets the app open without asking when it comes back
+  in time, but only if it was open when it left. Measure it with
+  `ContinuousClock`: it counts while the phone sleeps and ignores the
+  phone's clock.
+- Turn the lock on only after a check passes.
+- In a video app, count time in Picture in Picture as time in the app:
+  the video stays on screen in the small window, and Face ID on the way
+  back from it feels broken to people. Report `didStart` and `didStop` from
+  the `AVPlayerViewControllerDelegate`; they can come before or after the
+  scene's background change, so handle both orders. Start the time away
+  when the small window closes from another app
+  (`UIApplication.shared.applicationState == .background` at `didStop`).
+  Offer a setting for people who want it locked anyway.
+
+The cover:
+
+- Put it in a `UIWindow` of its own at `.alert + 1` in the app's scene,
+  shown and hidden with `isHidden`. An overlay on the root view sits under
+  alerts, sheets, menus, and confirmation dialogs, so they show through it.
+  Find the scene from a `UIViewRepresentable` in the root view
+  (`didMoveToWindow`, then `window?.windowScene`).
+- The keyboard has a window above it: resign the first responder on lock.
+- Keep the app's views under the cover. Swapping the root view for a lock
+  screen rebuilds every page: a player stops and Picture in Picture ends.
+- With the lock on, show the cover whenever the scene is not active, so
+  the app switcher shows no content. Skip that while the app's own Face ID
+  sheet is up, and until the scene turns active after it, or the cover
+  flashes over the page that asked.
+- Set `accessibilityViewIsModal` on the cover's view.
+
+Test it with a stand-in for Face ID that a launch variable sets up
+(`APP_LOCK=no,yes` answers no, then yes), and with times passed in. A UI
+test sends the app to the background by opening another app,
+`XCUIApplication(bundleIdentifier: "com.apple.Preferences").activate()`,
+then waits for `app.wait(for: .runningBackgroundSuspended, timeout:)` and
+calls `app.activate()`. Pressing home is not enough: the iPhone Duo
+simulator's home button leaves the app in the foreground. A disabled
+unlock button while the stand-in answers needs
+`wait(for: \.isEnabled, toEqual: true, timeout:)` before the tap. Check the
+real Face ID on the phone.
 
 ## Camera on iPhone Duo
 
