@@ -16,6 +16,12 @@ domain="gui/$(id -u)"
 case ${1:-} in
   install)
     mkdir -p "${plist:h}" "${log:h}"
+    # The agent sees none of this shell's variables: carry APP_PHONE and
+    # APP_TEAM into it, so with several phones paired it finds the same one.
+    extra=""
+    for var in APP_PHONE APP_TEAM; do
+      [[ -n ${(P)var:-} ]] && extra+="    <key>$var</key><string>${(P)var}</string>"$'\n'
+    done
     cat > "$plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -32,7 +38,7 @@ case ${1:-} in
   <key>EnvironmentVariables</key>
   <dict>
     <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
-  </dict>
+${extra}  </dict>
   <key>StartInterval</key><integer>3600</integer>
   <key>StandardOutPath</key><string>$log</string>
   <key>StandardErrorPath</key><string>$log</string>

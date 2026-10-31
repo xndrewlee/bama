@@ -58,14 +58,27 @@ phone_udid() {
 
 # Xcode reuses a cached profile until it expires, so a redeploy alone does
 # not extend a free team's 7 days. Move this app's cached profiles aside;
-# the build then fetches a new one.
+# the build then fetches a new one. When it cannot, as with no Xcode
+# sign-in, restore_profiles puts them back, so a plain deploy still signs.
+profiles="$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles"
+moved=()
 renew_profile() {
-  local dir="$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles" keep="$HOME/Library/Developer/$name/old-profiles" f id
+  local keep="$HOME/Library/Developer/$name/old-profiles" f id
   mkdir -p "$keep"
-  for f in "$dir"/*.mobileprovision(N); do
+  for f in "$profiles"/*.mobileprovision(N); do
     id=$(security cms -D -i "$f" 2>/dev/null | plutil -extract Entitlements.application-identifier raw -o - - 2>/dev/null) || continue
-    [[ $id == *.$bundle ]] && mv "$f" "$keep/"
+    [[ $id == *.$bundle ]] || continue
+    mv "$f" "$keep/" && moved+=("$keep/${f:t}")
   done
+  return 0
+}
+
+restore_profiles() {
+  local f
+  for f in "${moved[@]}"; do
+    [[ -f $f ]] && mv "$f" "$profiles/"
+  done
+  moved=()
   return 0
 }
 
@@ -117,7 +130,7 @@ generate
     -allowProvisioningUpdates -allowProvisioningDeviceRegistration \
     DEVELOPMENT_TEAM=$team CODE_SIGN_STYLE=Automatic build 2>&1; } \
   | { grep -v "DVTDevice: Unable to parse" || true; } \
-  || fail "build or signing failed: read the log above (an expired Xcode sign-in shows up here)"
+  || { restore_profiles; fail "build or signing failed: read the log above (an expired Xcode sign-in shows up here)"; }
 
 say "installing"
 xcrun devicectl device install app --device "$udid" "$app_device" >/dev/null \

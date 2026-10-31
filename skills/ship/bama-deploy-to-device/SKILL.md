@@ -84,11 +84,17 @@ opens. Xcode reuses a cached profile until it expires, so a plain redeploy
 does not extend it (seen on hardware). `tools/deploy.sh --if-due` reads the
 expiry from the installed build. With less than two days left, it moves
 the app's cached profiles to `~/Library/Developer/<AppName>/old-profiles/`,
-builds with a fresh profile, and installs. Otherwise it prints `not due`.
+builds with a fresh profile, and installs. If the build fails, it moves
+them back, so a plain `make deploy` still signs. Otherwise it prints
+`not due`.
 `tools/deploy.sh --renew` does the same right away.
 
 Ask the person before you install the agent: it keeps running every hour
 until they remove it.
+
+With more than one phone paired, install it with `APP_PHONE` set, as
+`APP_PHONE="<name>" tools/redeploy-agent.sh install`; the agent keeps it.
+Without it, every run logs `no paired iPhone found` and never installs.
 
 ```bash
 tools/redeploy-agent.sh install     # ~/Library/LaunchAgents/com.<user>.<app>.redeploy.plist
@@ -135,6 +141,9 @@ a phone not unlocked since it restarted.
 - `No Accounts`: this Mac's Xcode has no Apple ID. The person signs in at
   Xcode > Settings > Apple Accounts, then quits Xcode: `xcodebuild` saw the
   account only after Xcode quit. One Apple ID works on several Macs at once.
+  Run `tools/deploy.sh --renew` before installing the agent: a plain
+  deploy reuses the cached profile and never shows that the sign-in is
+  gone.
 - `WARNING the profile was not renewed`: run `tools/deploy.sh --renew`, and
   check the Xcode sign-in.
 - `DVTDevice: Unable to parse valid-ish build string`: harmless. Xcode
