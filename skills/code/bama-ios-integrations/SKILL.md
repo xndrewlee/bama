@@ -48,6 +48,9 @@ A free team signs no App Groups, iCloud, push, Associated Domains, or Sign
 in with Apple. An extension needs no entitlement, but without an App Group
 it cannot see the app's store: on the free tier a widget shows only what it
 can work out alone. Tell the user before a story depends on a paid row.
+Each extension is its own App ID with its own 7-day profile, and a free
+team may register 10 App IDs a week. `bama-deploy-to-device` renews the
+extensions' profiles with the app's.
 
 ## Permissions
 

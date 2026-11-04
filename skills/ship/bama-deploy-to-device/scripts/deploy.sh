@@ -67,7 +67,8 @@ renew_profile() {
   mkdir -p "$keep"
   for f in "$profiles"/*.mobileprovision(N); do
     id=$(security cms -D -i "$f" 2>/dev/null | plutil -extract Entitlements.application-identifier raw -o - - 2>/dev/null) || continue
-    [[ $id == *.$bundle ]] || continue
+    # The app's, and each extension's (a widget's is <bundle>.widgets).
+    [[ $id == *.$bundle || $id == *.$bundle.* ]] || continue
     mv "$f" "$keep/" && moved+=("$keep/${f:t}")
   done
   return 0
@@ -82,12 +83,17 @@ restore_profiles() {
   return 0
 }
 
-# When the profile in the last installed build expires, in seconds since 1970.
+# When the last installed build stops opening, in seconds since 1970: the
+# soonest of its profiles, the app's and each extension's.
 profile_expiry() {
-  [[ -f $app_device/embedded.mobileprovision ]] || return 0
-  local date
-  date=$(security cms -D -i "$app_device/embedded.mobileprovision" 2>/dev/null | plutil -extract ExpirationDate raw -o - - 2>/dev/null) || return 0
-  date -j -u -f "%Y-%m-%dT%H:%M:%SZ" "$date" +%s 2>/dev/null || true
+  local f date at soonest=
+  for f in $app_device/embedded.mobileprovision(N) $app_device/PlugIns/*.appex/embedded.mobileprovision(N); do
+    date=$(security cms -D -i "$f" 2>/dev/null | plutil -extract ExpirationDate raw -o - - 2>/dev/null) || continue
+    at=$(date -j -u -f "%Y-%m-%dT%H:%M:%SZ" "$date" +%s 2>/dev/null) || continue
+    [[ -z $soonest || $at -lt $soonest ]] && soonest=$at
+  done
+  [[ -n $soonest ]] && echo $soonest
+  return 0
 }
 
 udid=$(phone_udid)

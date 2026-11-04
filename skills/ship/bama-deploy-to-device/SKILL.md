@@ -82,9 +82,11 @@ prints `DEPLOYED and opened on the iPhone`.
 A free profile expires 7 days after it was made, and then the app no longer
 opens. Xcode reuses a cached profile until it expires, so a plain redeploy
 does not extend it (seen on hardware). `tools/deploy.sh --if-due` reads the
-expiry from the installed build. With less than two days left, it moves
-the app's cached profiles to `~/Library/Developer/<AppName>/old-profiles/`,
-builds with a fresh profile, and installs. If the build fails, it moves
+expiry from the installed build: the soonest of the app's profile and each
+extension's, since a widget has its own App ID and its own 7 days. With
+less than two days left, it moves the cached profiles of the app and its
+extensions to `~/Library/Developer/<AppName>/old-profiles/`, builds with
+fresh ones, and installs. If the build fails, it moves
 them back, so a plain `make deploy` still signs. Otherwise it prints
 `not due`.
 `tools/deploy.sh --renew` does the same right away.
