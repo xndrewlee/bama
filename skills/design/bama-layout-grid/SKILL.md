@@ -55,7 +55,10 @@ Fix each line with a `Space` token.
 
 Mark what you lay out yourself: the page, its sections, cards, rows in a
 card, sheet content. System lists, forms, sidebars, and toolbars align
-themselves and need no probes.
+themselves and need no probes. Your own rows beside them do.
+
+A check only sees what has probes. A screen with two probes passes while
+everything else is off, so read the count in the PASS line.
 
 ```swift
 VStack(alignment: .leading, spacing: Space.xxl) {
@@ -92,6 +95,38 @@ It checks that every probe:
 5. Sits a multiple of 4 pt below the probe above it.
 6. Never overlaps another probe in its area.
 
+### Line up across areas
+
+Rules 2 to 6 stay inside one area. Views in different areas, like text in a scroll
+view and a chat box outside it, need an edge that starts with `=`:
+
+```swift
+TextColumn().gridProbe("column", area: "", edge: "=reading")
+Composer().gridProbe("composer", area: "", edge: "=reading")
+```
+
+| Edge | Must match |
+| --- | --- |
+| `=name` | left and right |
+| `=name<` | left |
+| `=name>` | right |
+| `=name\|` | center |
+| `=name_` | bottom |
+
+These probes skip rules 2 to 6, so a view off the 4 pt grid can still match a
+system edge. To check one view against two groups, add a second `.gridProbe` with
+a different name, because a probe with the same name replaces the first.
+
+On the Mac, run the snapshots once with scroll bars on, because a scroll bar that takes width
+moves centered content (`bama-mac-design`, app-shell.md):
+
+```bash
+tools/snap.sh -AppleShowScrollBars Always
+```
+
+The probes keep one frame per name across all windows. When a second window shows
+the same views, its layout file mixes both windows, so check that window by its PNG.
+
 ## Check 3: look at the grid
 
 When a check fails and the cause is not clear, draw the grid over the
@@ -115,6 +150,7 @@ each probe in pink with its name. Open them with the Read tool.
 | inside its 20 pt inset | a missing margin, or a fixed width wider than the parent | `.padding(Space.margin)`, `maxWidth` instead of `width` |
 | overlap | `.offset`, `.position`, or a fixed height | remove it, let the stack size the view |
 | x between pixels | a fractional number | a whole number from `Space` |
+| `=name` has different left edges | a scroll bar that takes width, or a panel's gap on the content's side | `bama-mac-design`, app-shell.md, "Line up the content" |
 
 ## On iPhone
 

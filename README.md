@@ -21,6 +21,8 @@ Swift and SwiftUI. Local data. No Xcode GUI.
 
 **[Quick start](#quick-start) · [Fork changes](#changes-in-this-fork) · [How it works](#how-it-works) · [Skills](#skills) · [Specs](#specs) · [Install](#install)**
 
+**On Windows? Use [BAWA: Build Any Windows App](https://github.com/daveebbelaar/bawa) instead.**
+
 </div>
 
 ## Changes in this fork
@@ -135,6 +137,15 @@ Pick one route per agent. Two routes install every skill twice.
 /plugin marketplace add xndrewlee/bama
 /plugin install bama@bama
 ```
+
+To get new versions, run this in your shell, then start a new session:
+
+```bash
+claude plugin marketplace update bama
+claude plugin update bama@bama
+```
+
+To update on its own: run `/plugin`, open **Marketplaces**, select `bama`, and select **Enable auto-update**.
 
 </details>
 
