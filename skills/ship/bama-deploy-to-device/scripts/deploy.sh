@@ -96,6 +96,45 @@ profile_expiry() {
   return 0
 }
 
+# Xcode's sign-in is a list of account identifiers, with the credentials
+# in the keychain. While this Mac's screen is locked the keychain hands
+# nothing over: xcodebuild then drops the identifier from the list, and
+# every later build says "No Accounts". The credentials stay, so putting
+# the identifier back signs Xcode in again.
+account_file="$HOME/Library/Developer/$name/xcode-accounts"
+accounts() {
+  defaults read com.apple.dt.Xcode DVTDeveloperAccountManagerAppleIDLists 2>/dev/null \
+    | grep -oE '[0-9A-F]{8}(-[0-9A-F]{4}){3}-[0-9A-F]{12}' || true
+}
+
+# Whether this Mac's screen is locked. APP_LOCK_PLIST stands in for ioreg
+# in a test.
+screen_locked() {
+  local plist=$(mktemp) i locked=1
+  if [[ -n ${APP_LOCK_PLIST:-} ]]; then cp "$APP_LOCK_PLIST" "$plist"; else ioreg -n Root -d1 -a > "$plist" 2>/dev/null; fi
+  for i in {0..7}; do
+    plutil -extract IOConsoleUsers.$i raw -o - "$plist" >/dev/null 2>&1 || break
+    [[ $(plutil -extract IOConsoleUsers.$i.kCGSSessionUserNameKey raw -o - "$plist" 2>/dev/null) == $USER ]] || continue
+    [[ $(plutil -extract IOConsoleUsers.$i.CGSSessionScreenIsLocked raw -o - "$plist" 2>/dev/null) == true ]] && locked=0
+  done
+  rm -f "$plist"
+  return $locked
+}
+
+# Remembers the signed-in accounts, and puts them back when the list is empty.
+keep_accounts() {
+  local ids=$(accounts) id entries=()
+  if [[ -n $ids ]]; then
+    mkdir -p "${account_file:h}"
+    print -r -- "$ids" > "$account_file"
+  elif [[ -s $account_file ]]; then
+    for id in ${(f)"$(<$account_file)"}; do entries+=("{identifier = \"$id\";}"); done
+    defaults write com.apple.dt.Xcode DVTDeveloperAccountManagerAppleIDLists "{\"IDE.Identifiers.Prod\" = (${(j:, :)entries});}"
+    say "put Xcode's sign-in back: a build with this Mac locked had dropped it"
+  fi
+  return 0
+}
+
 udid=$(phone_udid)
 team=$(team_id)
 expires=$(sed -n 2p "$stamp" 2>/dev/null || true)
@@ -105,6 +144,14 @@ if [[ $mode == --status ]]; then
   echo "team:    ${team:-none: in Xcode > Settings > Accounts, sign in, then Manage Certificates > + > Apple Development}"
   [[ -n $expires ]] && echo "profile: expires $(date -r $expires '+%Y-%m-%d %H:%M')" || echo "profile: not deployed yet"
   exit 0
+fi
+
+if screen_locked; then
+  # A build now would sign Xcode out; a fresh profile needs the sign-in.
+  [[ $mode == --if-due ]] && { say "this Mac is locked: skipped, a build now would sign Xcode out"; exit 0; }
+  [[ $mode == --renew ]] && fail "unlock this Mac first: Xcode cannot read its sign-in while the screen is locked"
+else
+  keep_accounts
 fi
 
 if [[ $mode == --if-due ]]; then

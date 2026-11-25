@@ -111,6 +111,11 @@ tools/redeploy-agent.sh uninstall
   same Wi-Fi. A sleeping Mac skips runs; the next run after wake catches up.
 - An Apple ID sign-in in Xcode can expire. Then the build fails, and the log
   and the notification say so. The person signs in again in Xcode.
+- A locked Mac skips the run. `xcodebuild` cannot read the sign-in from the
+  keychain while the screen is locked, and it then drops the account from
+  Xcode: every later build says `No Accounts`. Seen on Xcode 27.1, twice,
+  each within an hour of a new sign-in. `deploy.sh` remembers the account
+  and puts it back on the next run with the Mac unlocked.
 - Keep the project outside Desktop, Documents, and iCloud Drive: macOS can
   stop a background job from reading those folders.
 
@@ -146,6 +151,12 @@ a phone not unlocked since it restarted.
   Run `tools/deploy.sh --renew` before installing the agent: a plain
   deploy reuses the cached profile and never shows that the sign-in is
   gone.
+- `this Mac is locked: skipped`: nothing is wrong. The hourly run waits for
+  an unlocked Mac. `--renew` stops with `unlock this Mac first`.
+- `put Xcode's sign-in back`: a build with the Mac locked had signed Xcode
+  out, by any `xcodebuild`, a simulator build included. The keychain kept
+  the credentials, so the account works again with no new sign-in. When
+  `No Accounts` stays, the credentials are gone: the person signs in.
 - `WARNING the profile was not renewed`: run `tools/deploy.sh --renew`, and
   check the Xcode sign-in.
 - `DVTDevice: Unable to parse valid-ish build string`: harmless. Xcode
